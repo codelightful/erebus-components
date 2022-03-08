@@ -1,0 +1,38 @@
+.erb-modal {
+	position: absolute;
+	overflow: hidden;
+	box-sizing: border-box;
+	border-radius: 10px;
+	z-index: 305;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 80%;
+	max-height: 90%;
+	width: 300px;
+}
+
+.erb-modal > .erb-content {
+	position: relative;
+	background-color: var(--erb-content-background, #ffffff);
+}
+
+.erb-modal > .erb-content > .erb-accent {
+	height: 8px;
+	background-color: #000000;
+}
+
+/* For more info on the x character see https://en.wikipedia.org/wiki/X_mark */
+.erb-modal > .erb-content > .erb-close {
+	position: absolute;
+	top: 7px;
+	right: 5px;
+}
+
+.erb-modal > .erb-content > .erb-header {
+	padding: 22px 15px 5px 15px;
+}
+
+.erb-modal > .erb-content > .erb-body {
+	padding: 10px;
+}

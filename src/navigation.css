@@ -1,0 +1,10 @@
+nav.erb-navigation {
+	border: solid 1px red;
+	display: flex;
+	flex-direction: row;
+}
+
+nav > div.erb-logo {
+	border: solid 1px yellow;
+	padding: 10px;
+}

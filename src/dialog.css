@@ -1,0 +1,97 @@
+/* Top container representing a dialog box */
+.erb-dialog {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 400px;
+	max-width: 100%;
+	border-style: solid;
+	border-width: var(--erb-dialog-border, 0);
+	border-top-width: var(--erb-dialog-top-border, 0);
+	border-bottom-width: var(--erb-dialog-bottom-border, 0);
+	background-color: var(--erb-dialog-bg, #ffffff);
+	box-sizing: border-box;
+	transform: translate(-50%, -50%);
+	border-radius: var(--erb-box-radius, 4px);
+	box-shadow: 20px 20px 30px -20px rgba(0,0,0,0.30);
+	overflow: hidden;
+	z-index: 400;
+}
+
+/* Header inside the dialog */
+.erb-dialog > .erb-header {
+	position: relative;
+	padding: 10px 20px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: var(--erb-dialog-separator, #ffffff);
+	font-size: 1.2rem;
+}
+
+/* Close button inside the dialog */
+.erb-dialog > .erb-close {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+}
+
+/* Element with the content of the dialog */
+.erb-dialog > .erb-body {
+	padding: 10px 20px;
+}
+
+/* Footer area for the dialog */
+.erb-dialog > .erb-footer {
+	padding: 10px 20px 20px 20px;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: var(--erb-dialog-separator, #ffffff);
+	text-align: right;
+	background-color: var(--erb-dialog-footer-bg, #ffffff);
+}
+
+/* Informational dialog */
+.erb-dialog.erb-info > .erb-header {
+	background-color: var(--erb-info, #7da7d8);
+	color: var(--erb-info-fg, #000000);
+}
+.erb-dialog.erb-info > .erb-footer > .erb-button {
+	background-color: var(--erb-info, #7da7d8);
+	color: var(--erb-info-fg, #000000);
+}
+
+/* Success dialog */
+.erb-dialog.erb-success {
+	background-color: var(--erb-success, #86D161);
+	color: var(--erb-success-fg, #000000);
+}
+.erb-dialog.erb-success > .erb-footer > .erb-button {
+	background-color: var(--erb-success, #86D161);
+	color: var(--erb-success-fg, #000000);
+}
+
+/* Warning dialog */
+.erb-dialog.erb-warn {
+	background-color: var(--erb-warn, #EDB95E);
+	color: var(--erb-warn-fg, #000000);
+}
+.erb-dialog.erb-warn > .erb-footer > .erb-button {
+	background-color: var(--erb-warn, #EDB95E);
+	color: var(--erb-warn-fg, #000000);
+}
+
+/* Error dialog */
+.erb-dialog.erb-error {
+	background-color: var(--erb-error, #e45959);
+	color: var(--erb-error-fg, #ffffff);
+}
+.erb-dialog.erb-error > .erb-footer > .erb-button {
+	background-color: var(--erb-error, #e45959);
+	color: var(--erb-error-fg, #ffffff);
+}
+
+/* Confirmation dialog */
+.erb-dialog.erb-confirm > .erb-header {
+	background-color: var(--erb-neutral, #bdbdbd);
+	color: var(--erb-neutral-fg, #000000);
+}

@@ -1,0 +1,275 @@
+/*
+Variables:
+erb-text-color-subtle: Light color for text that remains visible but is less relevant
+erb-separator-color: Color for elements used to create a visual delimiter
+erb-box-radius: Radio defined for the boxes (dialogs, toasts, etc)
+erb-button-radius: Radius defined for the buttons
+erb-button-bg: Regular button background
+erb-button-fg: Regular button text color
+erb-button-hover-bg: Background when hovering on a regular button
+erb-button-hover-fg: Text when hovering on a regular button
+erb-button-active-bg: Backround when the regular button is pressed
+erb-button-active-fg: Text when a regular button is pressed
+erb-info: Color for informational elements
+erb-info-fg: Color of the text positioned over a background with info color
+erb-success: Color for success elements
+erb-success-fg: Color of the text positioned over a background with success color
+erb-warn: Color for warning elements
+erb-warn-fg: Color of the text positioned over a background with warn color
+erb-error: Color for error elements
+erb-error-fg: Color of the text positioned over a background with error color
+erb-neutral: Color for elements that does not have the intention to transmit any sentiment (no error or warning or success)
+erb-neutral-fg: Color of the text positioned over a background with neutral color
+erb-toast-width: With for the toasts
+erb-dialog-separator: Color of the lines separating the sections of a dialog
+erb-dialog-border: Width for the dialog border
+erb-dialog-top-border: Top border of the dialogs. Allows to add or remove an accent into the top
+erb-dialog-bottom-border: Bottom border of the dialogs. Allows to add or remove an accent into the bottom
+erb-dialog-footer-bg: Background for the dialog footer
+erb-dialog-bg: Dialog background
+erb-primary: Primary color
+erb-primary-fg: Text over the primary color
+erb-primary-dark: Darken version of the primary color
+erb-primary-dark-fg: Text over the darken version of the primary color
+erb-primary-light: Lighten version of the primary color
+erb-primary-light-fg: Text over the lighten version of the primary color
+erb-positive: Color reflecting a positive outcome or action
+erb-positive-fg: Text over the color reflecting a positive outcome or action
+erb-negative: Color reflecting a negative outcome or action
+erb-negative-fg: Text over the color reflecting a negative outcome or action
+
+Z-Index:
+300 - Protect
+400 - Dialogs
+410 - Toasts
+*/
+
+/* Close button for most of the layered elements */
+.erb-close {
+	cursor: pointer;
+	color: var(--erb-text-color-subtle, #696969);
+	font-size: 1.2rem;
+}
+.erb-close::after {
+	content: "\1F5D9";
+}
+
+/* Highlights that a specific element is clickable */
+.erb-clickable {
+	cursor: pointer !important;
+}
+
+/* Allows to hide a element to make it invisible */
+.erb-hidden {
+	display: none !important;
+}
+
+/* Fade in effect */
+.erb-fadein {
+	animation-name: erb-anim-fadein;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-in;
+	animation-fill-mode: forwards;
+	animation-direction: normal;
+}
+@keyframes erb-anim-fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* Fade out effect */
+.erb-fadeout {
+	animation-name: erb-anim-fadeout;
+	animation-duration: 0.5s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+	animation-direction: normal;
+}
+@keyframes erb-anim-fadeout {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/* Bounce in effect */
+.erb-bouncein {
+	animation-name: erb-anim-bouncein;
+	animation-duration: 0.8s;
+	animation-timing-function: ease-in;
+	animation-fill-mode: forwards;
+	animation-direction: normal;
+}
+@keyframes erb-anim-bouncein {
+    0%{
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50%{
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+    80%{
+        opacity: 0.7;
+        transform: scale(0.89);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Bounce out effect */
+.erb-bounceout {
+	animation-name: erb-anim-bounceout;
+	animation-duration: 0.8s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+	animation-direction: normal;
+}
+@keyframes erb-anim-bounceout {
+    0%{
+        opacity: 1;
+        transform: scale(1) translate3d(0,0,0);
+    }
+    50%{
+        opacity: 0.7;
+        transform: scale(0.89);
+    }
+    80%{
+		opacity: 0.5;
+        transform: scale(1.1);
+    }
+    100%{
+		opacity: 0;
+        transform: scale(0.3) translate3d(0,0,0);
+    }
+}
+
+/* Style the buttons */
+.erb-button {
+	border-style: none;
+	border-radius: var(--erb-button-radius, 4px);
+	background-color: var(--erb-button-bg, #bdbdbd);
+	color: var(--erb-button-fg, #353535);
+	padding: 8px 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+	cursor: pointer;
+	outline-style: none;
+}
+.erb-button:first-of-type {
+	margin-left: 0;
+}
+.erb-button:last-of-type {
+	margin-right: 0;
+}
+.erb-button:hover, .erb-button:focus {
+	background-color: var(--erb-button-hover-bg, #a5a5a5);
+	color: var(--erb-button-hover-fg, #000000);
+}
+.erb-button:active {
+	background-color: var(--erb-button-bg, #bdbdbd);
+	color: var(--erb-button-fg, #353535);
+}
+
+.erb-button.erb-primary {
+	background-color: var(--erb-primary, #6d249e);
+	color: var(--erb-primary-fg, #e4e4e4);
+}
+.erb-button.erb-primary:hover, .erb-button.erb-primary:focus {
+	background-color: var(--erb-primary-dark, #4e1b70);
+	color: var(--erb-primary-dark-fg, #ffffff);
+}
+.erb-button.erb-primary:active {
+	background-color: var(--erb-primary, #6d249e);
+	color: var(--erb-primary-fg, #dddddd);
+}
+
+.erb-button.erb-positive {
+	background-color: var(--erb-positive, #86D161);
+	color: var(--erb-positive-fg, #353535);
+}
+.erb-button.erb-positive:hover, .erb-button.erb-positive:focus {
+	background-color: var(--erb-positive-dark, rgb(100, 146, 76));
+	color: var(--erb-positive-dark-fg, #ffffff);
+}
+.erb-button.erb-positive:active {
+	background-color: var(--erb-positive, #86D161);
+	color: var(--erb-positive-fg, #353535);
+}
+
+.erb-button.erb-negative {
+	background-color: var(--erb-negative, #e45959);
+	color: var(--erb-positive-fg, #000000);
+}
+.erb-button.erb-negative:hover, .erb-button.erb-negative:focus {
+	background-color: var(--erb-negative-dark, #ad3434);
+	color: var(--erb-negative-dark-fg, #ffffff);
+}
+.erb-button.erb-negative:active {
+	background-color: var(--erb-negative, #e45959);
+	color: var(--erb-negative-fg, #000000);
+}
+
+input.erb-field, select.erb-field {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #c5c5c5;
+	border-radius: 4px;
+	padding: 8px 10px;
+	outline-color: #a96ecf;
+	color: #353535;
+}
+input.erb-field:focus, select.erb-field:focus {
+	background-color: #f5e4ff;
+	border-color: #a96ecf;
+}
+
+label.erb-form-control {
+	display: grid;
+	grid-template-columns: 25px auto;
+	gap: 10px;
+	line-height: 28px;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+input[type=checkbox].erb-field, input[type=radio].erb-field {
+	background-color: #ffffff;
+	display: grid;
+	width: 28px;
+	height: 28px;
+	appearance: none;
+	place-content: center;
+	margin: 0;
+}
+input[type=radio].erb-field {
+	border-radius: 100%;
+}
+input[type=checkbox].erb-field:focus, input[type=radio].erb-field:focus {
+	background-color: #f5e4ff;
+}
+
+input[type="checkbox"]::before, input[type=radio].erb-field::before {
+	content: "";
+	width: 16px;
+	height: 16px;
+	transform: scale(0);
+	transition-property: transform;
+	transition-duration: 100ms;
+	transition-timing-function: ease-in-out;
+	box-shadow: inset 20px 20px 0px var(--erb-primary, #6d249e);
+}
+input[type=radio].erb-field::before {
+	border-radius: 100%;
+}
+input[type="checkbox"]:checked::before, input[type=radio].erb-field:checked::before {
+	transform: scale(1);
+}

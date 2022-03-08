@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+	<meta name="theme-color" content="#000000" />
+	<meta name="description" content="Erebus component library" />
+	<title>Erebus Component Library</title>
+	<link rel="stylesheet" type="text/css" href="./site/erebus-samples.css" />
+	<script type="text/javascript" src="./dist/erebus-components.min.js"></script>
+	<script type="text/javascript">
+		// inicializa el surface, el protect, el waiter, los toast, los dialogs
+		Erebus.components.onReady(function () {
+			toast.info('The page and the framework are ready').dismiss();
+		});
+
+		function clickRegular() {
+			dialog.info('Dialog 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a mi elit. Sed fermentum urna ex. Nulla pulvinar porta congue. Nullam sagittis lobortis nisl in mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+		}
+
+		function clickPrimary() {
+			dialog.confirm('Dialog 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut est ex. Phasellus maximus, sem et aliquam convallis, leo nibh mollis leo, non mattis mi purus vel neque. Proin mattis leo vitae molestie interdum.').then(function(result) {
+				console.log('The result is ' + result);
+				if(result) {
+					toast.success('The Yes button was selected');
+				} else {
+					toast.error('The No button was selected');
+				}
+			});
+		}
+
+		function clickPositive() {
+			toast.success('This is a success message').dismiss(3000);
+		}
+
+		function clickNegative() {
+			toast.error('This is an error message').dismiss(3000);
+		}
+	</script>
+</head>
+
+<body>
+	<button class="erb-button" onclick="clickRegular();">Click me</button>
+	<button class="erb-button erb-primary" onclick="clickPrimary();">Click me</button>
+	<button class="erb-button erb-positive" onclick="clickPositive();">Click me</button>
+	<button class="erb-button erb-negative" onclick="clickNegative();">Click me</button>
+	<div style="margin-top: 10px;">
+		<input type="text" class="erb-field"/>
+		<input type="password" class="erb-field"/>
+		<input type="date" class="erb-field"/>
+		<input type="email" class="erb-field"/>
+	</div>
+	<div style="margin-top: 10px;">
+		<select class="erb-field">
+			<option>A</option>
+			<option>B</option>
+			<option>C</option>
+		</select>
+	</div>
+	<div style="margin-top: 10px;">
+		<label class="erb-form-control">
+			<input type="checkbox" class="erb-field" checked=true>
+			This is the label
+		</label>
+	</div>
+	<div style="margin-top: 10px;">
+		<label class="erb-form-control">
+			<input type="radio" class="erb-field" name="fldRadioOne" checked=true>
+			One
+		</label>
+		<label class="erb-form-control">
+			<input type="radio" class="erb-field" name="fldRadioOne">
+			Two
+		</label>
+	</div>
+</body>
+
+</html>
