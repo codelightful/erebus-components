@@ -10,14 +10,22 @@ erb-button-hover-bg: Background when hovering on a regular button
 erb-button-hover-fg: Text when hovering on a regular button
 erb-button-active-bg: Backround when the regular button is pressed
 erb-button-active-fg: Text when a regular button is pressed
-erb-info: Color for informational elements
-erb-info-fg: Color of the text positioned over a background with info color
-erb-success: Color for success elements
-erb-success-fg: Color of the text positioned over a background with success color
-erb-warn: Color for warning elements
-erb-warn-fg: Color of the text positioned over a background with warn color
-erb-error: Color for error elements
-erb-error-fg: Color of the text positioned over a background with error color
+erb-info: (7da7d8) Color for informational elements
+erb-info-fg: (000000) Color of the text positioned over a background with info color
+erb-info-light: (d5e6f5) Light Color for informational elements
+erb-info-light-fg: (003d62) Color of the text positioned over a background with light info color
+erb-success: (86d161) Color for success elements
+erb-success-fg: (000000) Color of the text positioned over a background with success color
+erb-success-light: (d8eac5) Light Color for success elements
+erb-success-light-fg: (497916) Color of the text positioned over a background with light success color
+erb-warn: (edb95e) Color for warning elements
+erb-warn-fg: (000000) Color of the text positioned over a background with warn color
+erb-warn-light: (fff1e2) Light Color for warning elements
+erb-warn-light-fg: (d45e1a) Color of the text positioned over a background with light warn color
+erb-error: (e45959) Color for error elements
+erb-error-fg: (ffffff) Color of the text positioned over a background with error color
+erb-error-light: (ffadad) Light color for error elements
+erb-error-light-fg: (a53737) Color of the text positioned over a background with light error color
 erb-neutral: Color for elements that does not have the intention to transmit any sentiment (no error or warning or success)
 erb-neutral-fg: Color of the text positioned over a background with neutral color
 erb-toast-width: With for the toasts

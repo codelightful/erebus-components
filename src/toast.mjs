@@ -94,7 +94,7 @@ function createSpecs() {
 	if(arguments.length === 2) {
 		specs.message = arguments[1];
 	} else if(arguments.length > 2) {
-		specs.title = arguments[1]
+		specs.title = arguments[1];
 		specs.message = arguments[2];
 	}
 	if(!specs.type) {

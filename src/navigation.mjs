@@ -1,4 +1,3 @@
-import surface from './surface.mjs';
 import ErebusComponent from '../component.mjs';
 import './navigation.css';
 
@@ -18,6 +17,7 @@ function addNavigationArea(container, id, className) {
 
 class ErebusNavigation extends ErebusComponent {
 	constructor() {
+		super();
 		const element = document.createElement('nav');
 		element.className = 'erb-navigation';
 		addNavigationArea(element, 'divErbNavStart', 'erb-start');
@@ -41,4 +41,4 @@ export default function () {
 		$scope.navigation = new ErebusNavigation();
 	}
 	return $scope.navigation;
-};
+}

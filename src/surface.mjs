@@ -35,4 +35,4 @@ export default function() {
 		$scope.singleton = new ErebusSurface();
 	}
 	return $scope.singleton;
-};
+}

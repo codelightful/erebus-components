@@ -28,7 +28,7 @@ function appendToBody(element, callback) {
  * @param {string} id Identifier of the element to extract or create
  * @returns HTMLElement instance
  */
- function createHTMLElement(tagName, className, id) {
+function createHTMLElement(tagName, className, id) {
 	const element = document.createElement(tagName);
 	if (id) {
 		element.setAttribute('id', id);

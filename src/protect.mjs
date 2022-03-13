@@ -1,6 +1,6 @@
-import erebus from "erebus-core";
+import erebus from 'erebus-core';
 import ErebusComponent from './component.mjs';
-import utils from "./utils.mjs";
+import utils from './utils.mjs';
 import './protect.css';
 
 const $scope = {};

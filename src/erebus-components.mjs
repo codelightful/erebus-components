@@ -5,9 +5,9 @@ import surface from './surface.mjs';
 import protect from './protect.mjs';
 import toast from './toast.mjs';
 import dialog from './dialog.mjs';
-import modal from './modal.mjs';
 import './erebus-components.css';
-console.log('Erebus Components v0.0.1 0100');
+import './badge.css';
+console.log('Erebus Components v0.0.2');
 
 const $scope = {};
 $scope.onInit = [];
@@ -25,7 +25,6 @@ erebus.events.onReady(function () {
 	window.protect = protect().render();
 	window.toast = toast;
 	window.dialog = dialog;
-	window.modal = modal;
 	for(var idx=0; idx < $scope.onInit.length; idx++) {
 		erebus.handler.trigger($scope.onInit[idx]);
 	}
@@ -37,7 +36,7 @@ erebus.events.onReady(function () {
  */
 erebus.components.onReady = function (callback) {
 	if (typeof (callback) === 'function') {
-		$scope.onInit.push(callback)
+		$scope.onInit.push(callback);
 	}
 };
 

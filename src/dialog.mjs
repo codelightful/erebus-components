@@ -81,7 +81,7 @@ class ErebusDialog extends ErebusComponent {
 	#renderFooter() {
 		const footer = this.#renderDialogPart('erb-footer');
 		if(this.#specs.type === 'confirm') {
-			const yessButton = utils.createHTMLElement('button', 'erb-button erb-positive')
+			const yessButton = utils.createHTMLElement('button', 'erb-button erb-positive');
 			yessButton.innerHTML = erebus.i18n.getLabel('button.yes', 'Yes');
 			yessButton.addEventListener('click', () => { 
 				this.#specs.closeValue = true;
@@ -89,7 +89,7 @@ class ErebusDialog extends ErebusComponent {
 			});
 			footer.appendChild(yessButton);
 
-			const noButton = utils.createHTMLElement('button', 'erb-button erb-negative')
+			const noButton = utils.createHTMLElement('button', 'erb-button erb-negative');
 			noButton.innerHTML = erebus.i18n.getLabel('button.no', 'No');
 			noButton.addEventListener('click', () => { 
 				this.#specs.closeValue = false;
@@ -97,7 +97,7 @@ class ErebusDialog extends ErebusComponent {
 			});
 			footer.appendChild(noButton);
 		} else {
-			const closeButton = utils.createHTMLElement('button', 'erb-button erb-primary')
+			const closeButton = utils.createHTMLElement('button', 'erb-button erb-primary');
 			closeButton.innerHTML = erebus.i18n.getLabel('button.close', 'Close');
 			closeButton.addEventListener('click', () => { 
 				this.close(); 
@@ -236,7 +236,7 @@ function createSpecs() {
 	if (arguments.length === 2) {
 		specs.message = arguments[1];
 	} else if (arguments.length > 2) {
-		specs.title = arguments[1]
+		specs.title = arguments[1];
 		specs.message = arguments[2];
 	}
 	if (!specs.type) {
