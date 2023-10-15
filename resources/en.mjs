@@ -1,4 +1,4 @@
-{
+export default {
 	"erebus": "Erebus framework",
 	"toast.title.success": "Success",
 	"toast.title.info": "Information",
@@ -7,4 +7,4 @@
 	"button.close": "Close",
 	"button.yes": "Yes",
 	"button.no": "No"
-}
+};

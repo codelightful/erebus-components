@@ -1,6 +1,5 @@
 import erebus from 'erebus-core';
-import ErebusComponent from './component.mjs';
-import utils from './utils.mjs';
+import ErebusComponent from './components/component.mjs';
 import protect from './protect.mjs';
 import './dialog.css';
 

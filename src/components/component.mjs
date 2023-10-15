@@ -1,34 +1,13 @@
 import erebus from 'erebus-core';
 
 /**
- * Appends an element to the document body.  If the document body is not ready yet
- * then schedules a handler to add it to the document once it is ready
- * @param {HTMLElement} element Element to add
- * @param {function} callback Optional method to invoke once the element has been appended to the body
- */
-function appendToBody(element, callback) {
-	if (!element) {
-		throw Error('erebus.utils.append_to_body.null_element');
-	}
-	if (document.body) {
-		erebus.element(document.body).appendChild(element);
-		erebus.handler.trigger(callback, element);
-		return;
-	}
-	erebus.events.onReady(() => {
-		erebus.element(document.body).appendChild(element);
-		erebus.handler.trigger(callback, element);
-	});
-}
-
-/**
  * Extracts or creates an HTMLElement
  * @param {string} tagName Tag name of the element to create if does not exist
  * @param {string} className CSS class name to asign to the element if does not exist
  * @param {string} id Identifier of the element to extract or create
  * @returns HTMLElement instance
  */
-function createHTMLElement(tagName, className, id) {
+ export function createHTMLElement(tagName, className, id) {
 	const element = document.createElement(tagName);
 	if (id) {
 		element.setAttribute('id', id);
@@ -46,7 +25,7 @@ function createHTMLElement(tagName, className, id) {
  * @param {string} id Identifier of the element to extract or create
  * @returns HTMLElement instance
  */
-function createElement(tagName, className, id) {
+ export function createElement(tagName, className, id) {
 	const element = createHTMLElement(tagName, className, id);
 	return erebus.element(element);
 }
@@ -58,7 +37,7 @@ function createElement(tagName, className, id) {
  * @param {string} className CSS class name to asign to the element if does not exist
  * @returns HTMLElement instance
  */
-function getOrCreateElement(id, tagName, className) {
+ export function getOrCreateElement(id, tagName, className) {
 	var element = document.getElementById(id);
 	if (!element) {
 		return createElement(tagName, className, id);
@@ -67,17 +46,36 @@ function getOrCreateElement(id, tagName, className) {
 }
 
 /**
+ * Appends an element to the document body.  If the document body is not ready yet
+ * then schedules a handler to add it to the document once it is ready
+ * @param {*} element HTMLElement or ErebusElementI'm  to add
+ */
+ export function appendToBody(element) {
+	if (!element) {
+		return Promise.reject(Error('erebus.components.append_to_body.null_element'));
+	}
+	if (document.body) {
+		erebus.element(document.body).appendChild(element);
+		return Promise.resolve(element);
+	}
+	return new Promise(function(resolve) {
+		erebus.events.onReady(() => {
+			erebus.element(document.body).appendChild(element);
+			resolve(element);
+		});
+	});
+}
+
+/**
  * Extracts or creates/render an HTMLElement
  * @param {string} tagName Tag name of the element to create if does not exist
  * @param {string} id Identifier of the element to extract or create
  * @param {string} className CSS class name to asign to the element if does not exist
- * @param {function} callback Optional function to be invoked after the element has been rendered
- * @returns HTMLElement instance
+ * @returns Promise invoked after the element has been created and appended to the body
  */
-function getOrRenderElement(id, tagName, className, callback) {
+ export function getOrRenderElement(id, tagName, className) {
 	const element = getOrCreateElement(id, tagName, className);
-	appendToBody(element, callback);
-	return element;
+	return appendToBody(element);
 }
 
 /**
@@ -88,7 +86,7 @@ function getOrRenderElement(id, tagName, className, callback) {
  * @param {*} defaultValue Optional value to assign if the source object does not contain a value for the attribute
  * @returns Boolean value to determine if the source has a valid attribute and was assigned
  */
-function copyAttribute(target, source, attribute, defaultValue) {
+ export function copyAttribute(target, source, attribute, defaultValue) {
 	if (!target || !source || !attribute) {
 		return false;
 	}
@@ -110,4 +108,6 @@ function copyAttribute(target, source, attribute, defaultValue) {
 	return false;
 }
 
-export default { appendToBody, createHTMLElement, createElement, getOrCreateElement, getOrRenderElement, copyAttribute };
+/** Base class from which all visual components extends */
+export default class ErebusComponent {
+}

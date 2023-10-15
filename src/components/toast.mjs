@@ -1,6 +1,5 @@
 import erebus from 'erebus-core';
-import ErebusComponent from './component.mjs';
-import utils from './utils.mjs';
+import ErebusComponent, { getOrRenderElement, createElement } from './component.mjs';
 import './toast.css';
 
 const $scope = {};
@@ -13,12 +12,12 @@ function getDefaultTitle(type) {
 
 /** Obtains the top level element that contains all the toasts */
 function getToastHolder() {
-	return utils.getOrRenderElement('divErbToastHolder', 'div', 'erb-toast-holder');
+	return getOrRenderElement('divErbToastHolder', 'div', 'erb-toast-holder');
 }
 
 /** Internal utility function to create the element with the visual representation of the toast */
 function createToastElement(specs) {
-	const element = utils.createElement('div', 'erb-toast erb-' + specs.type, specs.id);
+	const element = createElement('div', 'erb-toast erb-' + specs.type, specs.id);
 	element.appendChild('<div class="erb-icon"></div>');
 	if (specs.title !== false) {
 		const titleText = specs.title ?? getDefaultTitle(specs.type);
@@ -27,7 +26,9 @@ function createToastElement(specs) {
 	if (specs.message) {
 		element.appendChild('<div class="erb-body">' + specs.message + '</div>');
 	}
-	getToastHolder().appendChild(element);
+	getToastHolder().then(function(holder) {
+		holder.appendChild(element);
+	});
 	element.addClass('erb-bouncein');
 	element.once('animationend', function() {
 		element.removeClass('erb-bouncein');
@@ -86,10 +87,10 @@ class ErebusToast extends ErebusComponent {
 
 /** Internal method to consume the call arguments to create a toast and assemble a specification object based on it */
 function createSpecs() {
-	var specs = {};
 	if(arguments.length === 0) {
 		throw Error('erebus.components.toast.no_arguments');
 	}
+	var specs = {};
 	specs.type = arguments[0]; 
 	if(arguments.length === 2) {
 		specs.message = arguments[1];

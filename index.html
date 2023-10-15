@@ -8,133 +8,22 @@
 	<meta name="description" content="Erebus component library" />
 	<title>Erebus Component Library</title>
 	<link rel="stylesheet" type="text/css" href="./dist/erebus-components.min.css" />
-	<link rel="stylesheet" type="text/css" href="./site/erebus-samples.css" />
+	<link rel="stylesheet" type="text/css" href="./site/erebus-component-site.css" />
 	<script type="text/javascript" src="./dist/erebus-components.min.js"></script>
+	<script type="text/javascript" src="./site/erebus-component-site.js"></script>
 	<script type="text/javascript">
-		// inicializa el surface, el protect, el waiter, los toast, los dialogs
-		Erebus.components.onReady(function () {
-			toast.info('The page and the framework are ready').dismiss();
-		});
-
-		function clickRegular() {
-			dialog.info('Dialog 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla a mi elit. Sed fermentum urna ex. Nulla pulvinar porta congue. Nullam sagittis lobortis nisl in mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
-		}
-
-		function clickPrimary() {
-			dialog.confirm('Dialog 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut est ex. Phasellus maximus, sem et aliquam convallis, leo nibh mollis leo, non mattis mi purus vel neque. Proin mattis leo vitae molestie interdum.').then(function(result) {
-				console.log('The result is ' + result);
-				if(result) {
-					toast.success('The Yes button was selected');
-				} else {
-					toast.error('The No button was selected');
-				}
-			});
-		}
-
-		function clickPositive() {
-			toast.success('This is a success message').dismiss(3000);
-		}
-
-		function clickNegative() {
-			toast.error('This is an error message').dismiss(3000);
-		}
+		
 	</script>
 </head>
-
 <body>
-	<button class="erb-button" onclick="clickRegular();">Click me</button>
-	<button class="erb-button erb-primary" onclick="clickPrimary();">Click me</button>
-	<button class="erb-button erb-positive" onclick="clickPositive();">Click me</button>
-	<button class="erb-button erb-negative" onclick="clickNegative();">Click me</button>
-	<div style="margin-top: 10px;">
-		<input type="text" class="erb-field"/>
-		<input type="password" class="erb-field"/>
-		<input type="date" class="erb-field"/>
-		<input type="email" class="erb-field"/>
-	</div>
-	<div style="margin-top: 10px;">
-		<select class="erb-field">
-			<option>A</option>
-			<option>B</option>
-			<option>C</option>
-		</select>
-	</div>
-	<div style="margin-top: 10px;">
-		<label class="erb-form-control">
-			<input type="checkbox" class="erb-field" checked=true>
-			This is the label
-		</label>
-	</div>
-	<div style="margin-top: 10px;">
-		<label class="erb-form-control">
-			<input type="radio" class="erb-field" name="fldRadioOne" checked=true>
-			One
-		</label>
-		<label class="erb-form-control">
-			<input type="radio" class="erb-field" name="fldRadioOne">
-			Two
-		</label>
-	</div>
-
-	<h1>Badges</h1>
-	<div class="erb-badge erb-error">
-		<div class="erb-header">Atention!</div>
-		<div class="erb-body">This is the message shown in an error badge</div>
-		<div class="erb-footer">This is the footer of the badge</div>
-	</div>
-
-	<div class="erb-badge erb-warn">
-		<div class="erb-header">Warning!</div>
-		<div class="erb-body">This is the message shown in a warning badge</div>
-		<div class="erb-footer">This is the footer of the badge</div>
-	</div>
-
-	<div class="erb-badge erb-info">
-		<div class="erb-header">Information</div>
-		<div class="erb-body">This is the message shown in an informational badge</div>
-		<div class="erb-footer">This is the footer of the badge</div>
-	</div>
-
-	<div class="erb-badge erb-success">
-		<div class="erb-header">Success!</div>
-		<div class="erb-body">This is the message shown in a success badge</div>
-		<div class="erb-footer">This is the footer of the badge</div>
-	</div>
-
-	<div class="erb-badge erb-info">
-		<div class="erb-closing"><button>&nbsp;</button></div>
-		<div class="erb-header">This is a Badge with a Long title that is expanded and may consume a considerable area. Will be visually correct? Will it be responsive and maintain consistency?</div>
-		<div class="erb-body">
-			What happens when the badge has long content? How is the interaction between the different elements contained in the badge? 
-			This example allows to demonstrate the behavior when the badge has extended content and it requires to expand his area.
-			What is the responsive capacity of this component? Feel free to adjust your screen size and simulate a small factor device.
+	<div id="div_page_sidebar" class="page-sidebar">
+		<div class="erb-menu">
+			<div class="erb-menu-entry"><a href="#">Introduction</a></div>
 		</div>
-		<div class="erb-footer">This is the footer of the badge</div>
 	</div>
-
-	<div class="erb-badge erb-error">
-		<div class="erb-icon">&nbsp;</div>
-		<div class="erb-header">Atention!</div>
-		<div class="erb-body">Example with an icon</div>
-	</div>
-
-	<div class="erb-badge erb-warn">
-		<div class="erb-icon">&nbsp;</div>
-		<div class="erb-header">Warning!</div>
-		<div class="erb-body">Example with an icon</div>
-	</div>
-
-	<div class="erb-badge erb-info">
-		<div class="erb-icon">&nbsp;</div>
-		<div class="erb-header">Information</div>
-		<div class="erb-body">Example with an icon</div>
-	</div>
-
-	<div class="erb-badge erb-success">
-		<div class="erb-icon">&nbsp;</div>
-		<div class="erb-header">Success!</div>
-		<div class="erb-body">Example with an icon</div>
+	
+	<div id="div_page_content" class="page-content">
+		...
 	</div>
 </body>
-
 </html>
