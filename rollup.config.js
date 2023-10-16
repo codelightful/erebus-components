@@ -1,6 +1,6 @@
 import babel from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
-import scss from 'rollup-plugin-scss';
+import css from 'rollup-plugin-import-css';
 import resolve from '@rollup/plugin-node-resolve';
 
 export default {
@@ -17,9 +17,9 @@ export default {
     },
     plugins: [
         resolve(),
-		scss({
-			output: './dist/erebus-components.min.css',
-			outputStyle: 'compressed'
+		css({
+			output: 'erebus-components.min.css',
+            minify: true
 		}),
         babel({ 
             exclude: "node_modules/**",

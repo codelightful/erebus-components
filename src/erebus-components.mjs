@@ -4,7 +4,7 @@ import './erebus-components.css';
 import './badge.css';
 import layout from './components/layout.mjs';
 import toast from './components/toast.mjs';
-console.log('Erebus Components v0.0.4');
+console.log('Erebus Components v0.0.5');
 
 const $scope = {};
 $scope.handlers = {};
