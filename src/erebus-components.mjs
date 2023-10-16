@@ -4,7 +4,7 @@ import './erebus-components.css';
 import './badge.css';
 import layout from './components/layout.mjs';
 import toast from './components/toast.mjs';
-console.log('Erebus Components v0.0.6');
+console.log('Erebus Components v0.0.7');
 
 const $scope = {};
 $scope.handlers = {};
@@ -12,7 +12,6 @@ $scope.handlers.componentReady = [];
 
 const langCode = erebus.i18n.getLanguage();
 import resources from '../resources/en.mjs';
-console.log(resources);
 erebus.i18n.setResourceBundle(resources, langCode);
 
 // declares the erebus components once the document is ready

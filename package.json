@@ -1,6 +1,6 @@
 {
   "name": "erebus-components",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Web component library",
   "repository": "https://github.com/codelightful/erebus-components",
   "browser": "./dist/erebus-components.min.js",
@@ -41,6 +41,6 @@
     "saas": "^1.0.0"
   },
   "dependencies": {
-    "erebus-core": "^0.0.16"
+    "erebus-core": "^0.0.17"
   }
 }
