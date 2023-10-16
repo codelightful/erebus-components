@@ -59,7 +59,7 @@ import erebus from 'erebus-core';
 		return Promise.resolve(element);
 	}
 	return new Promise(function(resolve) {
-		erebus.events.onReady(() => {
+		erebus.events.documentReady(() => {
 			erebus.element(document.body).appendChild(element);
 			resolve(element);
 		});

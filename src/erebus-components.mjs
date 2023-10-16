@@ -4,7 +4,7 @@ import './erebus-components.css';
 import './badge.css';
 import layout from './components/layout.mjs';
 import toast from './components/toast.mjs';
-console.log('Erebus Components v0.0.5');
+console.log('Erebus Components v0.0.6');
 
 const $scope = {};
 $scope.handlers = {};
@@ -25,7 +25,7 @@ components.layout = layout;
 components.toast = toast;
 //components.dialog = dialog;
 
-erebus.events.onReady(function () {
+erebus.events.documentReady(function () {
 	for(var idx=0; idx < $scope.handlers.componentReady.length; idx++) {
 		erebus.handler.trigger($scope.handlers.componentReady[idx]);
 	}

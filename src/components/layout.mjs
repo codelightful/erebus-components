@@ -22,7 +22,7 @@ class ErebusLayout extends ErebusComponent {
 			return;
 		}
 		this.#rendered = true;
-		await erebus.events.onReady();
+		await erebus.events.documentReady();
 		const element = createElement('div', 'erb-layout', 'erbDivLayout');
 		element.setParentNode(document.body);
 	}
