@@ -2,10 +2,9 @@
 import erebus from 'erebus-core';
 import './erebus-components.css';
 import './badge.css';
-import meta from '../package.json';
 import layout from './components/layout.mjs';
 import toast from './components/toast.mjs';
-console.log('Erebus Components ' + meta.version);
+console.log('Erebus Components v0.0.4');
 
 const $scope = {};
 $scope.handlers = {};
