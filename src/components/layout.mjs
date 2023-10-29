@@ -33,4 +33,4 @@ export default function() {
 		$scope.singleton = new ErebusLayout();
 	}
 	return $scope.singleton;
-};
+}

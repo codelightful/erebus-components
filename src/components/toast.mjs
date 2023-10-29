@@ -1,151 +1,191 @@
 import erebus from 'erebus-core';
-import ErebusComponent, { getOrRenderElement, createElement } from './component.mjs';
 import './toast.css';
 
-const $scope = {};
-$scope.validTypes = { info: 'info', success: 'success', warn: 'warn', error: 'error' };
+/** Constant with the identifier used for the DOM element containing all the toasts */
+const TOAST_CONTAINER_ID = 'divErebusToastContainer';
+/** Constant with the prefix used to generate the toast identifiers */
+const TOAST_ID_PREFIX = 'erbToast_';
+/** Constant with the default time (in milis) used to dismiss the toasts automatically */
+const DEFAULT_TIMEOUT = 8000;
+/** Hold a reference to every toast element that is opened */
+const openToasts = {};
+/** Reference to the event triggered when the toast is closed */
+const closeEvent = new CustomEvent('toast-close');
 
 /** Extract the default title for a specific toast type */
 function getDefaultTitle(type) {
-	return erebus.i18n.getLabel('toast.title.' + type, type);
+	return erebus.i18n.getLabel(`toast.title.${type}`, type);
 }
 
-/** Obtains the top level element that contains all the toasts */
-function getToastHolder() {
-	return getOrRenderElement('divErbToastHolder', 'div', 'erb-toast-holder');
+/** Obtains (or creates if does not exist) the main container used to position all the toasts */
+async function getOrCreateToastContainer() {
+	await erebus.events.documentReady();
+	var container = document.getElementById(TOAST_CONTAINER_ID);
+	if (!container) {
+		container = document.createElement('div');
+		container.setAttribute('id', TOAST_CONTAINER_ID);
+		container.setAttribute('class', 'erb-toast-container');
+		document.body.appendChild(container);
+	}
+	return container;
 }
 
-/** Internal utility function to create the element with the visual representation of the toast */
-function createToastElement(specs) {
-	const element = createElement('div', 'erb-toast erb-' + specs.type, specs.id);
-	element.appendChild('<div class="erb-icon"></div>');
-	if (specs.title !== false) {
-		const titleText = specs.title ?? getDefaultTitle(specs.type);
-		element.appendChild('<div class="erb-header">' + titleText + '</div>');
+function createToastTitle(container, toastType, title) {
+	const titleElement = document.createElement('div');
+	titleElement.setAttribute('class', 'erb-header');
+	if (!title) {
+		title = getDefaultTitle(toastType);
 	}
-	if (specs.message) {
-		element.appendChild('<div class="erb-body">' + specs.message + '</div>');
-	}
-	getToastHolder().then(function(holder) {
-		holder.appendChild(element);
-	});
-	element.addClass('erb-bouncein');
-	element.once('animationend', function() {
-		element.removeClass('erb-bouncein');
-	});
-	return element;
+	titleElement.innerHTML = title;
+	container.appendChild(titleElement);
 }
 
-/** Class to represent a toast component */
-class ErebusToast extends ErebusComponent {
-	#rendered; // avoid the render method to be invoked twice
-	#specs; // title and message
+function createToastBody(container, message) {
+	const bodyElement = document.createElement('div');
+	bodyElement.setAttribute('class', 'erb-body');
+	bodyElement.innerHTML = message;
+	container.appendChild(bodyElement);
+}
 
-	constructor(specs) {
-		super();
-		this.#specs = specs;
-		this.#specs.id = 'divErbToast_' + erebus.random.tinyId();
+function createToastBox(toastId, toastType, message, title) {
+	const toastBox = document.createElement('div');
+	toastBox.setAttribute('id', TOAST_ID_PREFIX + toastId);
+	toastBox.setAttribute('class', 'erb-toast erb-' + toastType);
+	createToastTitle(toastBox, toastType, title);
+	console.log('message=', message);
+	createToastBody(toastBox, message);
+	return toastBox;
+}
+
+class ErebusToast {
+	#id;
+	#type;
+	#message;
+	#title;
+	#status;
+
+	constructor(toastType, message, title) {
+		this.#id = erebus.random.shortId();
+		this.#type = toastType;
+		this.#message = message;
+		this.#title = title;
+		// Allows to determine the toast status (-1=Never opened, 1=Opened, 0=Closed)
+		this.#status = -1;
 	}
 
-	/* Generates the visual representation of the component */
-	render(callback) {
-		if (this.#rendered) {
-			console.warn('erebus.components.toast.already_rendered');
-			erebus.handler.trigger(callback);
-			return this;
+	async open() {
+		if (this.#status == 1) {
+			return;
 		}
-		this.#rendered = true;
-		const element = createToastElement(this.#specs);
-		element.once('click', () => {
-			this.dismiss(true);
+		this.#status = 1;
+		const toastBox = createToastBox(this.#id, this.#type, this.#message, this.#title);
+		toastBox.addEventListener('click', () => {
+			this.close();
 		});
-		erebus.handler.trigger(callback);
+		const container = await getOrCreateToastContainer();
+		container.appendChild(toastBox);
+		await erebus.events.animate(toastBox, 'erb-open');
+		openToasts[this.#id] = this;
 		return this;
 	}
 
-	/**
-	 * Closes the toast body
-	 * @param {*} value Argument to define if should be close immediately (0 or true), on a specific time
-	 * 				expressed with an integer number representing the number of miliseconds to close it or
-	 * 				omit the argument to use the default close timer.
-	 */
-	dismiss(value) {
-		if(value === true) {
-			value = 0;
-		} else if(typeof(value) !== 'number' || value <= 0) {
-			value = 10000;
+	autoClose(timing) {
+		if (!timing || typeof(timing) !== 'number') {
+			timing = DEFAULT_TIMEOUT;
 		}
 		setTimeout(() => {
-			const element = erebus.element('#' + this.#specs.id);
-			element.once('animationend', function() {
-				element.setParentNode(null);
+			this.close();
+		}, timing);
+	}
+
+	close() {
+		if (this.#status !== 1) {
+			console.warn('erebus.components.toast.already_closed');
+			return Promise.resolve(false);
+		}
+		this.#status = 0;
+		delete openToasts[this.#id];
+		const toastBox = document.getElementById(TOAST_ID_PREFIX + this.#id);
+		if (!toastBox) {
+			console.warn('erebus.components.toast.toast_element_not_found');
+			return Promise.resolve(false);
+		}
+		return new Promise((resolve) => {
+			erebus.events.animate(toastBox, 'erb-closed').then(() => {
+				toastBox.classList.remove('erb-open');
+				toastBox.parentElement.removeChild(toastBox);
+				setTimeout(() => {
+					toastBox.dispatchEvent(closeEvent);
+					resolve(true);
+				});
 			});
-			element.addClass('erb-bounceout');
-		}, value);
+		});
+	}
+
+	/**
+     * Adds an event listener triggered after the toast has been closed
+     * @param {function} handler Function to be triggered after the toast has been closed
+     * @param {object} params Parameters to define the listener behavior. To set the listener to be triggered only once use { once: true }.
+     */
+	onClose(handler, params) {
+		if(typeof(handler) !== 'function') {
+			throw Error('erebus.components.toast.on_close.invalid_handler');
+		}
+		const toastBox = document.getElementById(TOAST_ID_PREFIX + this.#id);
+		toastBox.addEventListener('toast-close', handler, params);
 	}
 }
 
-/** Internal method to consume the call arguments to create a toast and assemble a specification object based on it */
-function createSpecs() {
-	if(arguments.length === 0) {
-		throw Error('erebus.components.toast.no_arguments');
-	}
-	var specs = {};
-	specs.type = arguments[0]; 
-	if(arguments.length === 2) {
-		specs.message = arguments[1];
-	} else if(arguments.length > 2) {
-		specs.title = arguments[1];
-		specs.message = arguments[2];
-	}
-	if(!specs.type) {
-		specs.type = $scope.validTypes.info;
-	} else if(!$scope.validTypes[specs.type]) {
-		throw Error('erebus.components.toast.invalid_type[' + specs.type + ']');
-	}
-	if (!specs.message) {
-		throw Error('erebus.components.toast.null_message');
-	}
-	return specs;
-}
+const $module = async function(toastType, message, title) {
+	const toast = new ErebusToast(toastType, message, title);
+	return toast.open();
+};
+
+/** Contains constants for all the module types */
+$module.TYPE = { info: 'info', success: 'success', warn: 'warn', error: 'error' };
 
 /**
- * Generic method to create a toast with a dynamic type. Should receive: 
- * The toast type and the message
- * -or-
- * The toast type, the title and the message
+ * Create an error toast with specific content on it
+ * @param {string} content HTML content to put in the toast
  */
-const $module = function () {
-	const specs = createSpecs(...arguments);
-	return new ErebusToast(specs).render();
+$module.error = function(messsage, title) {
+	return $module($module.TYPE.error, messsage, title);
 };
 
 /**
- * Creates an informational toast. Should receive: the toast message or the toast title and the message
+ * Create a warning toast with specific content on it
+ * @param {string} content HTML content to put in the toast
  */
-$module.info = function() {
-	return $module($scope.validTypes.info, ...arguments);
+$module.warn = function(messsage, title) {
+	return $module($module.TYPE.warn, messsage, title);
 };
 
 /**
- * Creates a success toast. Should receive: the toast message or the toast title and the message
+ * Create a success toast with specific content on it
+ * @param {string} content HTML content to put in the toast
  */
-$module.success = function() {
-	return $module($scope.validTypes.success, ...arguments);
+$module.success = function(messsage, title) {
+	return $module($module.TYPE.success, messsage, title);
 };
 
 /**
- * Creates a warning toast. Should receive: the toast message or the toast title and the message
+ * Create an info toast with specific content on it
+ * @param {string} content HTML content to put in the toast
  */
-$module.warn = function() {
-	return $module($scope.validTypes.warn, ...arguments);
+$module.info = function(messsage, title) {
+	return $module($module.TYPE.info, messsage, title);
 };
 
 /**
- * Creates an error toast. Should receive: the toast message or the toast title and the message
+ * Closes all the open toasts
  */
-$module.error = function() {
-	return $module($scope.validTypes.error, ...arguments);
+$module.closeAll = async function() {
+	for(var toastId in openToasts) {
+		const toast = openToasts[toastId];
+		if (toast) {
+			await toast.close();
+		}
+	}
 };
 
 export default $module;

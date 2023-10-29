@@ -1,0 +1,63 @@
+<div class="erbsite-doc-header">
+	<h1>Dialog</h1>
+	<h2>Allows the creation of UI blocking dialog boxes</h2>
+</div>
+
+<div class="erbsite-doc-content">
+	<h3>Methods</h3>
+	<h4>dialog</h4>
+	<p>Opens a dialog with a specific type, text and title.</p>
+	<p>Returns a promise to be fullfilled when the dialog has been closed.</p>
+	<code>
+		Erebus.dialog(Erebus.dialog.TYPE.info, <span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function() {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the dialog has been closed
+		<br/>
+		});
+		<a class="erbsite-inner-action" href="#samples/dialog">See running example</a>
+	</code>
+
+	<h4>dialog.info</h4>
+	<p>Opens an informational dialog with a message and optional title.</p>
+	<p>Returns a promise to be fullfilled when the dialog has been closed.</p>
+	<code>
+		Erebus.dialog.info(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function() {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the dialog has been closed
+		<br/>
+		});
+	</code>
+
+	<h4>dialog.success</h4>
+	<p>Opens a success dialog with a message and optional title.</p>
+	<p>Returns a promise to be fullfilled when the dialog has been closed.</p>
+	<code>
+		Erebus.dialog.success(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function() {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the dialog has been closed
+		<br/>
+		});
+	</code>
+
+	<h4>dialog.error</h4>
+	<p>Opens an error dialog with a message and optional title.</p>
+	<p>Returns a promise to be fullfilled when the dialog has been closed.</p>
+	<code>
+		Erebus.dialog.error(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function() {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the dialog has been closed
+		<br/>
+		});
+	</code>
+
+	<h4>dialog.confirm</h4>
+	<p>Opens a dialog with a message and optional title and collects an user selection.</p>
+	<p>Returns a promise to be fullfilled when the dialog has been closed and receives the selection.</p>
+	<code>
+		Erebus.dialog.confirm(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(result) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the dialog has been closed
+		<br/>
+		});
+	</code>
+</div>

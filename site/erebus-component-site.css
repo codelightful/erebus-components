@@ -1,6 +1,162 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
 
 body {
-	font-family: 'Monserrat', sans-serif;
-	font-size: 20px;
+	font-family: 'Nunito', sans-serif;
+	font-size: 18px;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #155efc;
+}
+
+/* Sidebar area with the menu */
+.page-sidebar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 200px;
+	padding: 1rem;
+}
+
+/* Main area with the page content */
+.page-content {
+	position: fixed;
+	top: 0;
+	left: 200px;
+	right: 0;
+	bottom: 0;
+	padding: 1rem;
+	overflow-y: auto;
+}
+
+h1 {
+	margin: 0;
+	font-size: 2rem;
+}
+h2 {
+	margin: 0;
+	font-size: 1.2rem;
+}
+
+/* Style for a menu entry */
+.erbsite-menu-entry {
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+/* Header separator inside a menu */
+.erbsite-menu-section {
+	font-weight: bolder;
+	padding-top: 15px;
+}
+
+/* Header area of a documentation section */
+.erbsite-doc-header {
+	border-bottom: solid 1px #acacac;
+	padding-bottom: 15px;
+}
+.erbsite-doc-header > h2 {
+	font-size: 1.2rem;
+	font-weight: normal;
+	color: #515151;
+}
+
+/* Content area of a documentation section */
+.erbsite-doc-content {
+	margin-top: 15px;
+	font-size: 1rem;
+}
+.erbsite-doc-content > h3 {
+	font-size: 1.3rem;
+	margin-top: 20px;
+	margin-bottom: 0;
+}
+.erbsite-doc-content > h4 {
+	font-size: 1.1rem;
+	margin-top: 15px;
+	margin-bottom: 0;
+}
+.erbsite-doc-content p {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* Area containing a code example */
+code {
+	position: relative;
+	display: block;
+	border-left: solid 5px #acacac;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px 15px;
+	font-family: 'Courier New', Courier, monospace;
+	background-color: #f3f3f3;
+}
+code .erbsite-literal {
+	color: rgb(175, 80, 25);
+}
+
+/* Button to execute action inside a code area */
+code .erbsite-inner-action {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 0.7rem;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Block of code with relevant information */
+.erbsite-doc-note {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	border: solid 1px #acacac;
+	padding: 10px;	
+}
+
+/* Link in a page that contains the option to return to a parent page */
+.erbsite-return-link {
+	font-size: 1rem;
+}
+
+/* Area containing one or more buttons */
+.erbsite-buttonbar {
+	padding-top: 15px;
+}
+
+/* Table with columns well defined to provide information about the examples */
+.erbsite-layout-table {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+.erbsite-layout-table thead td {
+	background-color: #f3f3f3;
+	border-top: solid 1px #cecece;
+	border-bottom: solid 1px #cecece;
+}
+.erbsite-layout-table td {
+	padding: 5px 15px;
+	border-left: solid 1px #cecece;
+	border-right: solid 1px #cecece;
+}
+.erbsite-layout-table td:first-child {
+	border-left: none;
+}
+.erbsite-layout-table td:last-child {
+	border-right: none;
+}
+
+/* Area with well defined borders to create a visual separation of its content */
+.erbsite-ordered {
+	border: solid 1px #cecece;
+	padding: 10px;
+}
+
+.erbsite-doc-section {
+	margin-top: 20px;
+}
+.erbsite-doc-section:first-child {
+	margin-top: 0;
 }

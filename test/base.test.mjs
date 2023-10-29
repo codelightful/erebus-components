@@ -18,9 +18,7 @@ describe('Base Test', function() {
 	});
 
 	it('Base components', function() {
-		assert.ok(window.surface);
-		assert.ok(window.protect);
-		assert.ok(window.toast);
-		assert.ok(window.dialog);
+		assert.ok(erebus.dialog);
+		assert.ok(erebus.toast);
 	});
 });

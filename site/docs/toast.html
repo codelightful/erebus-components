@@ -1,0 +1,63 @@
+<div class="erbsite-doc-header">
+	<h1>Toast</h1>
+	<h2>Allows the creation of emerging messages</h2>
+</div>
+
+<div class="erbsite-doc-content">
+	<h3>Methods</h3>
+	<h4>toast</h4>
+	<p>Opens a toast with a specific type, text and title.</p>
+	<p>Returns a promise fullfilled with the toast instance.</p>
+	<code>
+		Erebus.toast(Erebus.toast.TYPE.info, <span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(toast) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the toast has been opened
+		<br/>
+		});
+		<a class="erbsite-inner-action" href="#samples/toast">See running example</a>
+	</code>
+
+	<h4>toast.info</h4>
+	<p>Opens an informational toast with a message and optional title.</p>
+	<p>Returns a promise fullfilled with the toast instance.</p>
+	<code>
+		Erebus.toast.info(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(toast) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the toast has been opened
+		<br/>
+		});
+	</code>
+
+	<h4>toast.success</h4>
+	<p>Opens a success toast with a message and optional title.</p>
+	<p>Returns a promise fullfilled with the toast instance.</p>
+	<code>
+		Erebus.toast.success(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(toast) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the toast has been opened
+		<br/>
+		});
+	</code>
+
+	<h4>toast.error</h4>
+	<p>Opens an error toast with a message and optional title.</p>
+	<p>Returns a promise fullfilled with the toast instance.</p>
+	<code>
+		Erebus.toast.error(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(toast) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the toast has been opened
+		<br/>
+		});
+	</code>
+
+	<h4>toast.warn</h4>
+	<p>Opens a warning toast with a message and optional title.</p>
+	<p>Returns a promise fullfilled with the toast instance.</p>
+	<code>
+		Erebus.toast.warn(<span class="erbsite-literal">'Message'</span>, <span class="erbsite-literal">'Optional title'</span>).then(function(toast) {
+		<br/>
+		&nbsp;&nbsp;&nbsp;&nbsp;// code executed when the toast has been opened
+		<br/>
+		});
+	</code>
+</div>

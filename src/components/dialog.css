@@ -13,7 +13,10 @@
 	box-sizing: border-box;
 	transform: translate(-50%, -50%);
 	border-radius: var(--erb-box-radius, 4px);
-	box-shadow: 20px 20px 30px -20px rgba(0,0,0,0.30);
+	box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+	border-top-style: solid;
+	border-top-width: 7px;
+	border-top-color: transparent;
 	overflow: hidden;
 	z-index: 400;
 }
@@ -21,49 +24,48 @@
 /* Header inside the dialog */
 .erb-dialog > .erb-header {
 	position: relative;
-	padding: 10px 20px;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-bottom-color: var(--erb-dialog-separator, #ffffff);
-	font-size: 1.2rem;
+	padding: 7px 15px;
+	font-size: 0.9rem;
 }
 
 /* Close button inside the dialog */
 .erb-dialog > .erb-close {
 	position: absolute;
-	top: 5px;
-	right: 10px;
+	top: 2px;
+	right: 5px;
+	z-index: 405;
 }
 
 /* Element with the content of the dialog */
 .erb-dialog > .erb-body {
-	padding: 10px 20px;
+	padding: 10px 15px;
+	background-color: #f3f3f4;
 }
 
 /* Footer area for the dialog */
 .erb-dialog > .erb-footer {
-	padding: 10px 20px 20px 20px;
-	border-top-style: solid;
-	border-top-width: 1px;
-	border-top-color: var(--erb-dialog-separator, #ffffff);
+	padding: 10px 15px;
 	text-align: right;
-	background-color: var(--erb-dialog-footer-bg, #ffffff);
 }
 
 /* Informational dialog */
+.erb-dialog.erb-info {
+	border-top-color: var(--erb-info, #7da7d8);
+}
 .erb-dialog.erb-info > .erb-header {
-	background-color: var(--erb-info, #7da7d8);
-	color: var(--erb-info-fg, #000000);
+	color: var(--erb-info, #7da7d8);
 }
 .erb-dialog.erb-info > .erb-footer > .erb-button {
 	background-color: var(--erb-info, #7da7d8);
-	color: var(--erb-info-fg, #000000);
+	color: var(--erb-info-fg, #ffffff);
 }
 
 /* Success dialog */
 .erb-dialog.erb-success {
-	background-color: var(--erb-success, #86D161);
-	color: var(--erb-success-fg, #000000);
+	border-top-color: var(--erb-success, #86D161);
+}
+.erb-dialog.erb-success > .erb-header {
+	color: var(--erb-success, #86D161);
 }
 .erb-dialog.erb-success > .erb-footer > .erb-button {
 	background-color: var(--erb-success, #86D161);
@@ -72,8 +74,10 @@
 
 /* Warning dialog */
 .erb-dialog.erb-warn {
-	background-color: var(--erb-warn, #EDB95E);
-	color: var(--erb-warn-fg, #000000);
+	border-top-color: var(--erb-warn, #EDB95E);
+}
+.erb-dialog.erb-warn > .erb-header {
+	color: var(--erb-warn, #EDB95E);
 }
 .erb-dialog.erb-warn > .erb-footer > .erb-button {
 	background-color: var(--erb-warn, #EDB95E);
@@ -82,16 +86,28 @@
 
 /* Error dialog */
 .erb-dialog.erb-error {
-	background-color: var(--erb-error, #e45959);
-	color: var(--erb-error-fg, #ffffff);
+	border-top-color: var(--erb-error, #e45959);
+}
+.erb-dialog.erb-error > .erb-header {
+	color: var(--erb-error, #e45959);
 }
 .erb-dialog.erb-error > .erb-footer > .erb-button {
 	background-color: var(--erb-error, #e45959);
-	color: var(--erb-error-fg, #ffffff);
+	color: var(--erb-success-fg, #ffffff);
 }
 
 /* Confirmation dialog */
+.erb-dialog.erb-confirm {
+	border-top-color: var(--erb-neutral, #7e7e7e);
+}
 .erb-dialog.erb-confirm > .erb-header {
-	background-color: var(--erb-neutral, #bdbdbd);
-	color: var(--erb-neutral-fg, #000000);
+	color: var(--erb-neutral, #7e7e7e);
+}
+.erb-dialog.erb-confirm .erb-button.erb-positive {
+	background-color: var(--erb-positive, #86D161);
+	color: var(--erb-positive-fg, #ffffff);
+}
+.erb-dialog.erb-confirm .erb-button.erb-negative {
+	background-color: var(--erb-negative, #e45959);
+	color: var(--erb-negative-fg, #ffffff);
 }

@@ -1,306 +1,259 @@
 import erebus from 'erebus-core';
-import ErebusComponent from './components/component.mjs';
 import protect from './protect.mjs';
 import './dialog.css';
 
+/** Constant with the identifier for the DOM element containing the dialog */
+const DIALOG_CONTAINER_ID = 'divErebusDialog';
+
 const $scope = {};
-$scope.validTypes = { info: 'info', success: 'success', warn: 'warn', error: 'error', confirm: 'confirm' };
 // contains the list of dialogs to be open
 $scope.queue = [];
 // contains the reference to the current dialog (if there is any dialog open)
 $scope.current = null;
-// reference to the singleton top level element representing the dialog
-$scope.element = null;
 
 /** Extract the default title for a specific dialog type */
 function getDefaultTitle(type) {
-	return erebus.i18n.getLabel('dialog.title.' + type, type);
+	return erebus.i18n.getLabel(`dialog.title.${type}`, type);
 }
 
-/** Removes a dialog instance from the queue */
-function removeFromQueue(dialog) {
-	if ($scope.queue.length === 0) {
-		console.log('Queue is empty. Nothing to remove. id=' + dialog.id);
-		return;
-	}
-	const index = $scope.queue.findIndex(item => item.id === dialog.id);
-	console.log('Searching dialog id=' + dialog.id + ' size=' + $scope.queue.length + ' index=' + index);
-	if (index >= 0) {
-		console.log('Removing dialog ' + dialog.id);
-		$scope.queue.splice(index, 1);
-	}
-}
-
-/** Process the next queued dialog (if there is any) */
+/** Collects and opens the next dialog in the queue */
 function nextDialog() {
-	console.log('Extracting next dialog. size=' + $scope.queue.length);
-	const next = $scope.queue.shift();
-	if (next) {
-		next.render();
-		return true;
+	const dialog = $scope.queue.shift();
+	if (dialog) {
+		dialog.open();
+	} else {
+		$scope.current = null;
 	}
-	return false;
 }
 
-/** Class to represent a dialog component */
-class ErebusDialog extends ErebusComponent {
-	#rendered; // avoid the render method to be invoked twice
-	#afterCloseListeners; // contains all the close listeners registered for this innstance
-	#specs; // type, title, message, closeValue
-
-	constructor(specs) {
-		super();
-		this.#rendered = false;
-		this.#afterCloseListeners = [];
-		this.#specs = specs;
-		this.#specs.id = erebus.random.tinyId();
-		console.log('Creating dialog id=' + this.#specs.id);
+/**
+ * Internal utility method to obtain the reference to the DOM element that represents the dialog top container or 
+ * creates it in case it does not exist.
+ * @param {string} dialogType String with the dialog type
+ * @returns Reference to the dialog container
+ */
+function getOrCreateDialogContainer(dialogType) {
+	var container = document.getElementById(DIALOG_CONTAINER_ID);
+	if (!container) {
+		container = document.createElement('div');
+		container.setAttribute('id', DIALOG_CONTAINER_ID);
+	} else {
+		container.parentElement.removeChild(container);
+		container.innerHTML = '';
 	}
+	container.setAttribute('class', 'erb-dialog erb-' + dialogType);
+	return container;
+}
 
-	/** Dialog unique identifier */
-	get id() {
-		return this.#specs.id;
-	}
+/**
+ * Creates the DOM element that renders an X close button inside the dialog
+ * @param {HTMLElement} container Reference to the DOM element that represents the dialog top container
+ * @returns Reference to the element added to the dialog
+ */
+function createTopCloseButton(container) {
+	const topClosebutton = document.createElement('div');
+	topClosebutton.setAttribute('class', 'erb-close');
+	container.appendChild(topClosebutton);
+	return topClosebutton;
+}
 
-	/** Internal method to create elements that represents different parts of the dialog */
-	#renderDialogPart(style, content, init) {
-		const dialogPart = utils.createElement('div', style);
-		if (content) {
-			dialogPart.content(content);
-		}
-		if (init === true) {
-			$scope.element.content(dialogPart);
-		} else {
-			$scope.element.appendChild(dialogPart);
-		}
-		return dialogPart;
-	}
+/**
+ * Creates the DOM element that renders the dialog title
+ * @param {HTMLElement} container Reference to the DOM element that represents the dialog top container
+ * @param {string} title String with the dialog title (text or HTML)
+ */
+function createDialogTitle(container, title) {
+	const titleArea = document.createElement('div');
+	titleArea.setAttribute('class', 'erb-header');
+	titleArea.innerHTML = title;
+	container.appendChild(titleArea);
+}
 
-	/** Internal method to render the dialog footer */
-	#renderFooter() {
-		const footer = this.#renderDialogPart('erb-footer');
-		if(this.#specs.type === 'confirm') {
-			const yessButton = utils.createHTMLElement('button', 'erb-button erb-positive');
-			yessButton.innerHTML = erebus.i18n.getLabel('button.yes', 'Yes');
-			yessButton.addEventListener('click', () => { 
-				this.#specs.closeValue = true;
-				this.close(); 
-			});
-			footer.appendChild(yessButton);
+/**
+ * Creates the DOM element that renders the dialog body
+ * @param {HTMLElement} container Reference to the DOM element that represents the dialog top container
+ * @param {string} title String with the dialog content (text or HTML)
+ */
+function createDialogBody(container, message) {
+	const bodyArea = document.createElement('div');
+	bodyArea.setAttribute('class', 'erb-body');
+	bodyArea.innerHTML = message;
+	container.appendChild(bodyArea);
+}
 
-			const noButton = utils.createHTMLElement('button', 'erb-button erb-negative');
-			noButton.innerHTML = erebus.i18n.getLabel('button.no', 'No');
-			noButton.addEventListener('click', () => { 
-				this.#specs.closeValue = false;
-				this.close(); 
-			});
-			footer.appendChild(noButton);
-		} else {
-			const closeButton = utils.createHTMLElement('button', 'erb-button erb-primary');
-			closeButton.innerHTML = erebus.i18n.getLabel('button.close', 'Close');
-			closeButton.addEventListener('click', () => { 
-				this.close(); 
-			});
-			footer.appendChild(closeButton);
-		}
-	}
+/**
+ * Internal utility method to create a dialog button
+ * @param {HTMLElement} buttonContainer Reference to the DOM element to append the button into it
+ * @param {string} buttonText String with the button text
+ * @param {string} buttonClass String with the button CSS class used as modifier
+ * @param {Function} listener Reference to a function to be invoked when the button is clicked
+ */
+function createDialogButton(buttonContainer, buttonText, buttonClass, listener) {
+	const closeButton = document.createElement('button');
+	closeButton.setAttribute('class', buttonClass);
+	closeButton.innerHTML = buttonText;
+	closeButton.addEventListener('click', listener);
+	buttonContainer.appendChild(closeButton); 
+}
 
-	/** Internal method to render all the dialog elements */
-	#renderDialogElements() {
-		const className = 'erb-dialog erb-' + this.#specs.type;
-		if (!$scope.element) {
-			$scope.element = utils.getOrCreateElement('divErbDialog', 'div', className);
-		} else {
-			$scope.element.className = className;
-		}
-		this.#renderDialogPart('erb-header', this.#specs.title, true);
-		this.#renderDialogPart('erb-body', this.#specs.message);
-		const topClose = this.#renderDialogPart('erb-close');
-		topClose.once('click', () => { this.close(); });
-		this.#renderFooter();
-	}
-
-	/** Queue a dialog instance to be the next to be opened */
-	_queue() {
-		if ($scope.current && $scope.current.id === this.id) {
-			console.log('Returning dialog to the queue id=' + this.id);
-			$scope.queue.unshift(this);
-			this.#rendered = false;
-		} else {
-			console.log('Queuing dialog id=' + this.id);
-			$scope.queue.push(this);
-		}
-	}
-
-	/* Generates the visual representation of the component */
-	render(callback) {
-		if (this.#rendered) {
-			erebus.handler.trigger(callback);
-			return this;
-		}
-		console.log('Rendering dialog id=' + this.id);
-		this.#rendered = true;
-		removeFromQueue(this);
-		// if there is any open dialog then move it back to the queue
-		if ($scope.current && $scope.current.id !== this.id) {
-			$scope.current._queue();
-		}
-		$scope.current = this;
-		this.#renderDialogElements();
-		protect().show();
-		$scope.element.addClass('erb-fadein');
-		utils.appendToBody($scope.element, () => {
-			$scope.element.once('animationend', () => {
-				$scope.element.removeClass('erb-fadein');
-				erebus.handler.trigger(callback, this.#specs.closeValue);
-			});
+/**
+ * Cerates the DOM element that renders the dialog footer
+ * @param {HTMLElement} container Reference to the DOM element that represents the dialog top container
+ */
+function createDialogFooter(container, dialogType, dialogReference) {
+	const footerArea = document.createElement('div');
+	footerArea.setAttribute('class', 'erb-footer');
+	if (dialogType === $module.TYPE.confirm) {
+		const yesLabel = erebus.i18n.getLabel('button.yes', 'Yes');
+		createDialogButton(footerArea, yesLabel, 'erb-button erb-positive', function() {
+			dialogReference.close(true);
 		});
-		return this;
+		const noLabel = erebus.i18n.getLabel('button.no', 'No');
+		createDialogButton(footerArea, noLabel, 'erb-button erb-negative', function() {
+			dialogReference.close(false);
+		});
+	} else {
+		const closeLabel = erebus.i18n.getLabel('button.close', 'Close');
+		createDialogButton(footerArea, closeLabel, 'erb-button', function() {
+			dialogReference.close();
+		});
 	}
-
-	/**
-	 * Closes the dialog
-	 * @param {int} timer Optional numeric value to close the dialog after a specific period expressed in miliseconds
-	 * @param {function} callback Optional function to be invoked after the dialog has been closed
-	 */
-	close() {
-		var timer = 0;
-		var callback = null;
-		if (arguments.length === 1) {
-			if (typeof (arguments[0]) === 'number') {
-				timer = arguments[0];
-			} else if (typeof (arguments[0]) === 'function') {
-				callback = arguments[0];
-			}
-		} else if (arguments.length === 2) {
-			timer = arguments[0];
-			callback = arguments[1];
-		}
-		if (timer < 0) {
-			timer = 0;
-		}
-		setTimeout(() => {
-			if ($scope.current.id !== this.id) {
-				console.log('Closing queued dialog id=' + this.id);
-				removeFromQueue(this);
-				erebus.handler.trigger(callback);
-			} else {
-				console.log('Closing current dialog id=' + this.id);
-				$scope.element.addClass('erb-fadeout');
-				$scope.element.once('animationend', () => {
-					$scope.current = null;
-					$scope.element.setParentNode(null);
-					$scope.element.removeClass('erb-fadeout');
-					// adds the subsequent actions to the event loop to allow the refresh of the UI
-					setTimeout(() => {
-						erebus.handler.trigger(callback);
-						this.#triggerAfterClose();
-						if(!nextDialog()) {
-							protect().hide();
-						}
-					}, 0);
-				});
-			}
-		}, timer);
-	}
-
-	/**
-	 * Allows to register a handler invoked once the dialog has been closed
-	 * @param {function} listener Function invoked when the dialog has been closed.  In the case of the confirmation dialogs
-	 * 			the handler function will receive a boolean value to determine the user selection.
-	 * @returns Dialog instance to write fluent expressions
-	 */
-	then(listener) {
-		if(typeof(listener) === 'function') {
-			this.#afterCloseListeners.push(listener);
-		}
-		return this;
-	}
-
-	/** Internal method to trigger the action handlers registered to be executed when the dialog is closed */
-	#triggerAfterClose() {
-		for(let idx=0; idx < this.#afterCloseListeners.length; idx++) {
-			erebus.handler.trigger(this.#afterCloseListeners[idx], this.#specs.closeValue);
-		}
-	}
+	container.appendChild(footerArea);
 }
 
-/** Internal method to consume the call arguments to create a dialog and assemble a specification object based on it */
-function createSpecs() {
-	var specs = {};
-	if (arguments.length === 0) {
-		throw Error('erebus.components.dialog.no_arguments');
+/** Class representing a dialog instance providing methods to interact with the dialog DOM representation */
+class ErebusDialog {
+	// String with the type of dialog
+	#type;
+	// String with the dialog message
+	#message;
+	// String with the dialog title or null to use the default title depending on the dialog type
+	#title;
+	// Reference to a function used as a handler to be invoked when the dialog is closed
+	#onClose;
+	
+	constructor(dialogType, message, title, onClose) {
+		if (!title) {
+			title = getDefaultTitle(dialogType);
+		}
+		this.#type = dialogType;
+		this.#message = message;
+		this.#title = title;
+		this.#onClose = onClose;
 	}
-	specs.type = arguments[0];
-	if (arguments.length === 2) {
-		specs.message = arguments[1];
-	} else if (arguments.length > 2) {
-		specs.title = arguments[1];
-		specs.message = arguments[2];
+
+	/**
+	 * Opens the dialog instance
+	 */
+	async open() {
+		$scope.current = this;
+		protect.show();
+		const container = getOrCreateDialogContainer(this.#type);
+		if (this.#type !== $module.TYPE.confirm) {
+			const topCloseButton = createTopCloseButton(container);
+			topCloseButton.addEventListener('click', () => {
+				this.close();
+			});
+		}
+		createDialogTitle(container, this.#title);
+		createDialogBody(container, this.#message);
+		createDialogFooter(container, this.#type, this);
+		await erebus.events.documentReady();
+		document.body.appendChild(container);
 	}
-	if (!specs.type) {
-		specs.type = $scope.validTypes.info;
-	} else if (!$scope.validTypes[specs.type]) {
-		throw Error('erebus.components.dialog.invalid_type[' + specs.type + ']');
+
+	/**
+	 * Closes the dialog instance
+	 * @param {*} value Optional value pass to the promise fullfilled when the dialog was opened
+	 */
+	async close(value) {
+		var container = document.getElementById(DIALOG_CONTAINER_ID);
+		container.classList.add('erb-hidden');
+		container.innerHTML = '';
+		$scope.current = null;
+		protect.hide();
+		setTimeout(() => {
+			this.#onClose(value);
+			nextDialog();
+		}, 0);
 	}
-	if (!specs.title) {
-		specs.title = getDefaultTitle(specs.type);
-	}
-	if (!specs.message) {
-		throw Error('erebus.components.dialog.null_message');
-	}
-	return specs;
 }
 
 /**
  * Generic method to create a dialog with a dynamic type. Should receive: 
- * The dialog type and the message
- * -or-
- * The dialog type, the title and the message
+ * @param {string} dialogType String with the type of dialog to create (info, success, warn, error, confirm).
+ * 		The following constants can be used: 
+ * 			- Erebus.dialog.TYPE.info.
+ * 			- Erebus.dialog.TYPE.success.
+ * 			- Erebus.dialog.TYPE.warn.
+ * 			- Erebus.dialog.TYPE.error.
+ * 			- Erebus.dialog.TYPE.confirm.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled when the dialog has been dismiss by the user
  */
-const $module = function () {
-	const specs = createSpecs(...arguments);
-	const dialog = new ErebusDialog(specs);
-	if (!$scope.current) {
-		return dialog.render();
-	}
-	dialog._queue();
-	return dialog;
+const $module = function (dialogType, message, title) {
+	return new Promise(function(resolve) {
+		const dialog = new ErebusDialog(dialogType, message, title, resolve);
+		if ($scope.current) {
+			$scope.queue.push(dialog);
+		} else {
+			dialog.open();
+		}
+	});
+};
+
+/** Contains constants for all the dialog types */
+$module.TYPE = { info: 'info', success: 'success', warn: 'warn', error: 'error', confirm: 'confirm' };
+
+/**
+ * Creates an informational dialog.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled when the dialog has been dismiss by the user
+ */
+$module.info = function (message, title) {
+	return $module($module.TYPE.info, message, title);
 };
 
 /**
- * Creates an informational dialog. Should receive: the dialog message or the dialog title and the message
+ * Creates a success dialog.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled when the dialog has been dismiss by the user
  */
-$module.info = function () {
-	return $module($scope.validTypes.info, ...arguments);
+$module.success = function (message, title) {
+	return $module($module.TYPE.success, message, title);
 };
 
 /**
- * Creates a success dialog. Should receive: the dialog message or the dialog title and the message
+ * Creates a warning dialog.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled when the dialog has been dismiss by the user
  */
-$module.success = function () {
-	return $module($scope.validTypes.success, ...arguments);
+$module.warn = function (message, title) {
+	return $module($module.TYPE.warn, message, title);
 };
 
 /**
- * Creates a warning dialog. Should receive: the dialog message or the dialog title and the message
+ * Creates an error dialog.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled when the dialog has been dismiss by the user
  */
-$module.warn = function () {
-	return $module($scope.validTypes.warn, ...arguments);
+$module.error = function (message, title) {
+	return $module($module.TYPE.error, message, title);
 };
 
 /**
- * Creates an error dialog. Should receive: the dialog message or the dialog title and the message
+ * Creates a confirm dialog.
+ * @param {string} message String with the message or HTML content to show in the dialog body
+ * @param {string} title Optional string with the title of the dialog or omit to use the default title
+ * @returns Promise to be fulfilled with the selection of the user
  */
-$module.error = function () {
-	return $module($scope.validTypes.error, ...arguments);
-};
-
-/**
- * Creates a confirm dialog. Should receive: the dialog message or the dialog title and the message
- */
-$module.confirm = function () {
-	return $module($scope.validTypes.confirm, ...arguments);
+$module.confirm = function (message, title) {
+	return $module($module.TYPE.confirm, message, title);
 };
 
 export default $module;

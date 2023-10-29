@@ -46,11 +46,19 @@ erb-positive-fg: Text over the color reflecting a positive outcome or action
 erb-negative: Color reflecting a negative outcome or action
 erb-negative-fg: Text over the color reflecting a negative outcome or action
 
+erb-layout-top-height: Height of the top layout element
+erb-spacing-sm: Small spacing used for gaps and margins
+erb-box-radius-sm: Radious for boxes with a small/minor corner
+
 Z-Index:
 300 - Protect
 400 - Dialogs
 410 - Toasts
 */
+
+body {
+	overflow: hidden;
+}
 
 /* Close button for most of the layered elements */
 .erb-close {
@@ -166,7 +174,7 @@ Z-Index:
 	border-radius: var(--erb-button-radius, 4px);
 	background-color: var(--erb-button-bg, #bdbdbd);
 	color: var(--erb-button-fg, #353535);
-	padding: 8px 15px;
+	padding: 6px 10px;
 	margin-left: 5px;
 	margin-right: 5px;
 	cursor: pointer;

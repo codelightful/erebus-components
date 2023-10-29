@@ -7,7 +7,7 @@ import erebus from 'erebus-core';
  * @param {string} id Identifier of the element to extract or create
  * @returns HTMLElement instance
  */
- export function createHTMLElement(tagName, className, id) {
+export function createHTMLElement(tagName, className, id) {
 	const element = document.createElement(tagName);
 	if (id) {
 		element.setAttribute('id', id);
@@ -25,7 +25,7 @@ import erebus from 'erebus-core';
  * @param {string} id Identifier of the element to extract or create
  * @returns HTMLElement instance
  */
- export function createElement(tagName, className, id) {
+export function createElement(tagName, className, id) {
 	const element = createHTMLElement(tagName, className, id);
 	return erebus.element(element);
 }
@@ -37,7 +37,7 @@ import erebus from 'erebus-core';
  * @param {string} className CSS class name to asign to the element if does not exist
  * @returns HTMLElement instance
  */
- export function getOrCreateElement(id, tagName, className) {
+export function getOrCreateElement(id, tagName, className) {
 	var element = document.getElementById(id);
 	if (!element) {
 		return createElement(tagName, className, id);
@@ -50,7 +50,7 @@ import erebus from 'erebus-core';
  * then schedules a handler to add it to the document once it is ready
  * @param {*} element HTMLElement or ErebusElementI'm  to add
  */
- export function appendToBody(element) {
+export function appendToBody(element) {
 	if (!element) {
 		return Promise.reject(Error('erebus.components.append_to_body.null_element'));
 	}
@@ -73,7 +73,7 @@ import erebus from 'erebus-core';
  * @param {string} className CSS class name to asign to the element if does not exist
  * @returns Promise invoked after the element has been created and appended to the body
  */
- export function getOrRenderElement(id, tagName, className) {
+export function getOrRenderElement(id, tagName, className) {
 	const element = getOrCreateElement(id, tagName, className);
 	return appendToBody(element);
 }
@@ -86,7 +86,7 @@ import erebus from 'erebus-core';
  * @param {*} defaultValue Optional value to assign if the source object does not contain a value for the attribute
  * @returns Boolean value to determine if the source has a valid attribute and was assigned
  */
- export function copyAttribute(target, source, attribute, defaultValue) {
+export function copyAttribute(target, source, attribute, defaultValue) {
 	if (!target || !source || !attribute) {
 		return false;
 	}
