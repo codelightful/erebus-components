@@ -52,7 +52,6 @@ function createToastBox(toastId, toastType, message, title) {
 	toastBox.setAttribute('id', TOAST_ID_PREFIX + toastId);
 	toastBox.setAttribute('class', 'erb-toast erb-' + toastType);
 	createToastTitle(toastBox, toastType, title);
-	console.log('message=', message);
 	createToastBody(toastBox, message);
 	return toastBox;
 }
