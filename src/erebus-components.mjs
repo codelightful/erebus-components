@@ -4,7 +4,7 @@ import dialog from './components/dialog.mjs';
 import toast from './components/toast.mjs';
 import './erebus-components.css';
 import './badge.css';
-console.log('Erebus Components v0.0.9');
+console.log('Erebus Components v0.0.10');
 
 const langCode = erebus.i18n.getLanguage();
 import resources from '../resources/en.mjs';

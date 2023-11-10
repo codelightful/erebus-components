@@ -8,14 +8,14 @@ import erebus from 'erebus-core';
  * @returns HTMLElement instance
  */
 export function createHTMLElement(tagName, className, id) {
-	const element = document.createElement(tagName);
+	const target = document.createElement(tagName);
 	if (id) {
-		element.setAttribute('id', id);
+		target.setAttribute('id', id);
 	}
 	if (className) {
-		element.className = className;
+		target.className = className;
 	}
-	return element;
+	return target;
 }
 
 /**
@@ -26,8 +26,8 @@ export function createHTMLElement(tagName, className, id) {
  * @returns HTMLElement instance
  */
 export function createElement(tagName, className, id) {
-	const element = createHTMLElement(tagName, className, id);
-	return erebus.element(element);
+	const target = createHTMLElement(tagName, className, id);
+	return erebus.$(target);
 }
 
 /**
@@ -38,11 +38,11 @@ export function createElement(tagName, className, id) {
  * @returns HTMLElement instance
  */
 export function getOrCreateElement(id, tagName, className) {
-	var element = document.getElementById(id);
-	if (!element) {
+	var target = document.getElementById(id);
+	if (!target) {
 		return createElement(tagName, className, id);
 	}
-	return erebus.element(element);
+	return erebus.$(target);
 }
 
 /**
@@ -50,18 +50,18 @@ export function getOrCreateElement(id, tagName, className) {
  * then schedules a handler to add it to the document once it is ready
  * @param {*} element HTMLElement or ErebusElementI'm  to add
  */
-export function appendToBody(element) {
-	if (!element) {
+export function appendToBody(target) {
+	if (!target) {
 		return Promise.reject(Error('erebus.components.append_to_body.null_element'));
 	}
 	if (document.body) {
-		erebus.element(document.body).appendChild(element);
-		return Promise.resolve(element);
+		erebus.$(document.body).appendChild(target);
+		return Promise.resolve(target);
 	}
 	return new Promise(function(resolve) {
 		erebus.events.documentReady(() => {
-			erebus.element(document.body).appendChild(element);
-			resolve(element);
+			erebus.$(document.body).appendChild(target);
+			resolve(target);
 		});
 	});
 }
@@ -74,8 +74,8 @@ export function appendToBody(element) {
  * @returns Promise invoked after the element has been created and appended to the body
  */
 export function getOrRenderElement(id, tagName, className) {
-	const element = getOrCreateElement(id, tagName, className);
-	return appendToBody(element);
+	const target = getOrCreateElement(id, tagName, className);
+	return appendToBody(target);
 }
 
 /**

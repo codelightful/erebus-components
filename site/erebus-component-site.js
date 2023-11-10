@@ -1,6 +1,6 @@
 Erebus.events.documentReady().then(function() {
-    const contentArea = Erebus.element('#div_page_content');
-    const sideBarArea = Erebus.element('#div_page_sidebar');
+    const contentArea = Erebus.$('#div_page_content');
+    const sideBarArea = Erebus.$('#div_page_sidebar');
     sideBarArea.load('./site/fragments/sidebar.html')
 
     Erebus.router.default(() => contentArea.load('./site/fragments/home.html'));
