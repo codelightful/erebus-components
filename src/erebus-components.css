@@ -171,14 +171,14 @@ body {
 /* Style the buttons */
 .erb-button {
 	border-style: none;
-	border-radius: var(--erb-button-radius, 4px);
+	border-radius: var(--erb-button-radius, 5px);
 	background-color: var(--erb-button-bg, #bdbdbd);
 	color: var(--erb-button-fg, #353535);
-	padding: 6px 10px;
+	padding: 7px 10px;
 	margin-left: 5px;
 	margin-right: 5px;
 	cursor: pointer;
-	outline-style: none;
+	outline: none;
 }
 .erb-button:first-of-type {
 	margin-left: 0;
@@ -186,7 +186,10 @@ body {
 .erb-button:last-of-type {
 	margin-right: 0;
 }
-.erb-button:hover, .erb-button:focus {
+.erb-button:focus {
+	outline: solid 2px #000000;
+}
+.erb-button:hover {
 	background-color: var(--erb-button-hover-bg, #a5a5a5);
 	color: var(--erb-button-hover-fg, #000000);
 }
@@ -195,25 +198,15 @@ body {
 	color: var(--erb-button-fg, #353535);
 }
 
-.erb-button.erb-primary {
-	background-color: var(--erb-primary, #6d249e);
-	color: var(--erb-primary-fg, #e4e4e4);
-}
-.erb-button.erb-primary:hover, .erb-button.erb-primary:focus {
-	background-color: var(--erb-primary-dark, #4e1b70);
-	color: var(--erb-primary-dark-fg, #ffffff);
-}
-.erb-button.erb-primary:active {
-	background-color: var(--erb-primary, #6d249e);
-	color: var(--erb-primary-fg, #dddddd);
-}
-
 .erb-button.erb-positive {
 	background-color: var(--erb-positive, #86D161);
 	color: var(--erb-positive-fg, #353535);
 }
-.erb-button.erb-positive:hover, .erb-button.erb-positive:focus {
-	background-color: var(--erb-positive-dark, rgb(100, 146, 76));
+.erb-button.erb-positive:focus {
+	outline: solid 2px var(--erb-positive-dark, #64924c);
+}
+.erb-button.erb-positive:hover {
+	background-color: var(--erb-positive-dark, #64924c);
 	color: var(--erb-positive-dark-fg, #ffffff);
 }
 .erb-button.erb-positive:active {
@@ -225,67 +218,14 @@ body {
 	background-color: var(--erb-negative, #e45959);
 	color: var(--erb-positive-fg, #000000);
 }
-.erb-button.erb-negative:hover, .erb-button.erb-negative:focus {
+.erb-button.erb-negative:focus {
+	outline: solid 2px var(--erb-negative-dark, #ad3434);
+}
+.erb-button.erb-negative:hover {
 	background-color: var(--erb-negative-dark, #ad3434);
 	color: var(--erb-negative-dark-fg, #ffffff);
 }
 .erb-button.erb-negative:active {
 	background-color: var(--erb-negative, #e45959);
 	color: var(--erb-negative-fg, #000000);
-}
-
-input.erb-field, select.erb-field {
-	border-style: solid;
-	border-width: 2px;
-	border-color: #c5c5c5;
-	border-radius: 4px;
-	padding: 8px 10px;
-	outline-color: #a96ecf;
-	color: #353535;
-}
-input.erb-field:focus, select.erb-field:focus {
-	background-color: #f5e4ff;
-	border-color: #a96ecf;
-}
-
-label.erb-form-control {
-	display: grid;
-	grid-template-columns: 25px auto;
-	gap: 10px;
-	line-height: 28px;
-	margin-top: 10px;
-	margin-bottom: 5px;
-}
-
-input[type=checkbox].erb-field, input[type=radio].erb-field {
-	background-color: #ffffff;
-	display: grid;
-	width: 28px;
-	height: 28px;
-	appearance: none;
-	place-content: center;
-	margin: 0;
-}
-input[type=radio].erb-field {
-	border-radius: 100%;
-}
-input[type=checkbox].erb-field:focus, input[type=radio].erb-field:focus {
-	background-color: #f5e4ff;
-}
-
-input[type="checkbox"]::before, input[type=radio].erb-field::before {
-	content: "";
-	width: 16px;
-	height: 16px;
-	transform: scale(0);
-	transition-property: transform;
-	transition-duration: 100ms;
-	transition-timing-function: ease-in-out;
-	box-shadow: inset 20px 20px 0px var(--erb-primary, #6d249e);
-}
-input[type=radio].erb-field::before {
-	border-radius: 100%;
-}
-input[type="checkbox"]:checked::before, input[type=radio].erb-field:checked::before {
-	transform: scale(1);
 }

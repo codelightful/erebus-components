@@ -1,0 +1,179 @@
+<div style="display: flex; flex-direction: row;">
+    <div style="margin: 10px;">
+        <h2>INPUT fields</h2>
+        <div class="erb-field erb-input">
+            <input type="text" id="fldInputTxt" value="Text Field 001"/>
+        </div>
+        
+        <div class="erb-field erb-input">
+            <label for="fldInput02">Text Label</label>
+            <input type="text" id="fldInput02" value="Text Field 002"/>
+        </div>
+
+        <div class="erb-field erb-input">
+            <label for="fldInput03">Text Label</label>
+            <input type="text" id="fldInput03" value="Text Field 001"/>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+
+        <div class="erb-field erb-input erb-error">
+            <label for="fldInput04">Text Label</label>
+            <input type="text" id="fldInput04" value="Text Field 001"/>
+            <div class="erb-pills"><div>Required</div><div>Minimum value=0</div></div>
+        </div>
+
+        <div class="erb-field erb-input erb-error">
+            <label for="fldInput05">Text Label</label>
+            <input type="text" id="fldInput05" value="Text Field 001"/>
+            <div class="erb-pills"><div>Required</div><div>Minimum value=0</div></div>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+
+        <div class="erb-field erb-input">
+            <label for="fldInputPwd">Password</label>
+            <input type="password" id="fldInputPwd" value="12345678"/>
+        </div>
+        <div class="erb-field erb-input">
+            <label for="fldInputEml">Email</label>
+            <input type="text" id="fldInputEml" value="john.doe@something.com"/>
+        </div>
+    </div>
+
+    <div style="margin: 10px;">
+        <h2>SELECT fields</h2>
+        <div class="erb-field erb-select">
+            <select id="fldSelect01">
+                <option value="">...</option>
+                <option value="one">Option 1</option>
+                <option value="two">Option 2</option>
+            </select>
+        </div>
+
+        <div class="erb-field erb-select">
+            <label for="fldSelect02">Text Label</label>
+            <select id="fldSelect02">
+                <option value="">...</option>
+                <option value="one">Option 1</option>
+                <option value="two">Option 2</option>
+            </select>
+        </div>
+
+        <div class="erb-field erb-select">
+            <label for="fldSelect03">Text Label</label>
+            <select id="fldSelect03">
+                <option value="">...</option>
+                <option value="one">Option 1</option>
+                <option value="two">Option 2</option>
+            </select>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+
+        <div class="erb-field erb-select erb-error">
+            <label for="fldSelect04">Text Label</label>
+            <select id="fldSelect04">
+                <option value="">...</option>
+                <option value="one">Option 1</option>
+                <option value="two">Option 2</option>
+            </select>
+            <div class="erb-pills"><div>Required</div><div>Minimum value=0</div></div>
+        </div>
+
+        <div class="erb-field erb-select erb-error">
+            <label for="fldSelect05">Text Label</label>
+            <select id="fldSelect05">
+                <option value="">...</option>
+                <option value="one">Option 1</option>
+                <option value="two">Option 2</option>
+            </select>
+            <div class="erb-pills"><div>Required</div><div>Minimum value=0</div></div>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+    </div>
+
+    <div style="margin: 10px;">
+        <h2>CHECKBOX fields</h2>
+        <div class="erb-field erb-checkbox">
+            <input type="checkbox" value="S">
+        </div>
+
+        <div class="erb-field erb-checkbox">
+            <label for="fldCheck01">Text Label</label>
+            <input type="checkbox" id="fldCheck01" value="S">
+        </div>
+
+        <div class="erb-field erb-checkbox">
+            <label for="fldCheck02">Text Label</label>
+            <input type="checkbox" id="fldCheck02" value="S">
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+
+        <div class="erb-field erb-error erb-checkbox">
+            <label for="fldCheck03">Text Label</label>
+            <input type="checkbox" id="fldCheck03" value="S">
+            <div class="erb-pills"><div>Required</div></div>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+    </div>
+
+    <div style="margin: 10px;">
+        <h2>RADIO fields</h2>
+        <div class="erb-field erb-radio">
+            <input type="radio" value="S" name="radioOne">
+            <input type="radio" value="N" name="radioOne">
+        </div>
+
+        <div class="erb-field">
+            <div class="erb-radio">
+                <label for="fldRadio01S">Text Label</label>
+                <input type="radio" id="fldRadio01S" value="S" name="radioTwo">
+            </div>
+            <div class="erb-radio">
+                <label for="fldRadio01N">Text Label</label>
+                <input type="radio" id="fldRadio01N" value="N" name="radioTwo">
+            </div>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+
+        <div class="erb-field erb-error">
+            <div class="erb-radio">
+                <label for="fldRadio02S">Text Label</label>
+                <input type="radio" id="fldRadio02S" value="S" name="radioThree">
+            </div>
+            <div class="erb-radio">
+                <label for="fldRadio02N">Text Label</label>
+                <input type="radio" id="fldRadio02N" value="N" name="radioThree">
+            </div>
+            <div class="erb-pills"><div>Required</div></div>
+            <div class="erb-note">Some instructions to fill the field</div>
+        </div>
+    </div>
+</div>
+
+<div style="display: flex; flex-direction: row;">
+    <div id="divTestForm01" style="margin: 10px;">
+        <h2>Validations</h2>
+        <div class="erb-field erb-input">
+            <label for="fldValidation01">Name</label>
+            <input type="text" id="fldValidation01" validation="required"/>
+        </div>
+        <div class="erb-field erb-input">
+            <label for="fldValidation02">Age</label>
+            <input type="text" id="fldValidation02" validation="required;min=18;max=99" format="integer"/>
+        </div>
+        <div class="erb-field erb-select">
+            <label for="fldValidation03">Gender</label>
+            <select id="fldValidation03" validation="required">
+                <option value="">...</option>
+                <option value="F">Female</option>
+                <option value="M">Male</option>
+            </select>
+        </div>
+        <div class="erb-field erb-input">
+            <label for="fldValidation04">Birth Date</label>
+            <input type="text" id="fldValidation04" validation="required;min=@date(2023-01-01);max=@today" format="date"/>
+        </div>
+        <div>
+            <button class="erb-button" id="btnValidateForm">Validate</button>
+        </div>
+    </div>
+</div>

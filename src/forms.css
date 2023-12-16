@@ -1,0 +1,91 @@
+/* Wrapper providing visual style to the fields */
+.erb-field {
+    position: relative;
+    padding-top: 1.2rem;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Field label inside a field wrapper */
+.erb-field.erb-input > label,
+.erb-field.erb-select > label {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-top: 0;
+    font-size: 0.85rem;
+}
+.erb-field.erb-checkbox > label {
+    position: absolute;
+    left: 25px;
+}
+.erb-field > .erb-radio > label {
+    position: absolute;
+    left: 25px;
+}
+
+
+/* Input field inside a field wrapper */
+.erb-input > input[type=text], 
+.erb-input > input[type=password], 
+.erb-input > input[type=email], 
+.erb-select > select {
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    padding: 6px 10px 5px 10px;
+    font-size: 1rem;
+    width: 100%;
+    vertical-align: middle;
+    height: 30px;
+}
+.erb-select > select {
+    padding-top: 5px;
+}
+
+/* Field markes as error */
+.erb-field.erb-error > input,
+.erb-field.erb-error > select {
+    border-color: #e45959;
+    outline-color: #e45959;
+}
+.erb-field.erb-error.erb-checkbox > label {
+    color: #e45959;
+}
+.erb-field.erb-error.erb-checkbox > input {
+    accent-color: #e45959;
+}
+.erb-field.erb-error > .erb-radio > label {
+    color: #e45959;
+}
+.erb-field.erb-error > .erb-radio > input {
+    accent-color: #e45959;
+}
+
+/* Note to provide additional field context inside a field wrapper */
+.erb-field > .erb-note {
+    font-size: 0.8rem;
+    padding-top: 3px;
+}
+
+/* Pills highlighting field errors inside a field wrapper */
+.erb-field > .erb-pills {
+    margin-top: 3px;
+}
+.erb-field > .erb-pills > div {
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #e45959;
+    color: #ffffff;
+    font-size: 0.75rem;
+    padding: 3px 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.erb-field > .erb-pills > div:first-child {
+    margin-left: 0;
+}
+.erb-field > .erb-pills > div:last-child {
+    margin-right: 0;
+}

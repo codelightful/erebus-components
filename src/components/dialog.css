@@ -4,7 +4,7 @@
 	top: 50%;
 	left: 50%;
 	width: 400px;
-	max-width: 100%;
+	max-width: 90%;
 	border-style: solid;
 	border-width: var(--erb-dialog-border, 0);
 	border-top-width: var(--erb-dialog-top-border, 0);
@@ -102,12 +102,4 @@
 }
 .erb-dialog.erb-confirm > .erb-header {
 	color: var(--erb-neutral, #7e7e7e);
-}
-.erb-dialog.erb-confirm .erb-button.erb-positive {
-	background-color: var(--erb-positive, #86D161);
-	color: var(--erb-positive-fg, #ffffff);
-}
-.erb-dialog.erb-confirm .erb-button.erb-negative {
-	background-color: var(--erb-negative, #e45959);
-	color: var(--erb-negative-fg, #ffffff);
 }

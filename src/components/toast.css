@@ -13,7 +13,7 @@
 /* Element with a toast box (a single Toast) */
 .erb-toast {
     position: relative;
-    width: var(--erb-toast-width, 400px);
+    width: var(--erb-toast-width, 300px);
     min-height: var(--erb-toast-min-height, 50px);
     padding-top: var(--erb-toast-tp, var(--erb-spacing-sm, 10px));
     padding-bottom: var(--erb-toast-bt, var(--erb-spacing-sm, 10px));

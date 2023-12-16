@@ -11,5 +11,9 @@ export default {
 	"toast.title.error": "Error",
 	"button.close": "Close",
 	"button.yes": "Yes",
-	"button.no": "No"
+	"button.no": "No",
+	"validation.pill.required": "Required",
+	"validation.pill.min": "Min value is @@",
+	"validation.pill.max": "Max value is @@",
+	"validation.param.@today": "today",
 };

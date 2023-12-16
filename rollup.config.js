@@ -4,7 +4,7 @@ import css from 'rollup-plugin-import-css';
 import resolve from '@rollup/plugin-node-resolve';
 
 export default {
-    input: 'src/erebus-components.mjs',
+    input: 'src/index.mjs',
     output: {
         file: './dist/erebus-components.min.js',
         format: 'umd',

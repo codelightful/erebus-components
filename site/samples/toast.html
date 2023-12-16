@@ -5,38 +5,13 @@
 
 <div class="erbsite-doc-content">
     <div class="erbsite-doc-section">
-        <button class="erb-button" onclick="openToast(Erebus.toast.TYPE.info);">Open INFO toast</button>
-        <button class="erb-button" onclick="openToast(Erebus.toast.TYPE.success);">Open SUCCESS toast</button>
-        <button class="erb-button" onclick="openToast(Erebus.toast.TYPE.warn);">Open WARN toast</button>
-        <button class="erb-button" onclick="openToast(Erebus.toast.TYPE.error);">Open ERROR toast</button>
+        <button class="erb-button" id="btnToastInfo">INFO toast</button>
+        <button class="erb-button" id="btnToastSuccess">SUCCESS toast</button>
+        <button class="erb-button" id="btnToastWarn">WARN toast</button>
+        <button class="erb-button" id="btnToastError">ERROR toast</button>
     </div>
     <div class="erbsite-doc-section"></div>
-        <button class="erb-button" onclick="openMultipleDialogs();">Open multiple toasts</button>
-        <button class="erb-button" onclick="closeAllToast();">Close all toasts</button>
+        <button class="erb-button" id="btnToastMulti">Open multiple toasts</button>
+        <button class="erb-button" id="btnToastCloseAll">Close all toasts</button>
     </div>
 </div>
-
-<script type="text/javascript">
-    const longText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet risus nullam eget felis eget nunc lobortis mattis aliquam. Risus viverra adipiscing at in tellus. Nisi vitae suscipit tellus mauris a diam maecenas. Sit amet consectetur adipiscing elit. Libero justo laoreet sit amet.';
-
-    function openToast(toastType) {
-        Erebus.toast(toastType, longText).then(function(toastObj) {
-            alert('The toast has been opened and will be closed automatically in 5 seconds');
-            toastObj.onClose(function() {
-                alert('The toast has been closed');
-            });
-            toastObj.autoClose(5000);
-        });
-    }
-
-    function openMultipleDialogs() {
-        Erebus.toast.info('Toast 1. ' + longText);
-        Erebus.toast.success('Toast 1. ' + longText);
-        Erebus.toast.error('Toast 1. ' + longText);
-        Erebus.toast.warn('Toast 1. ' + longText);
-    }
-
-    function closeAllToast() {
-        Erebus.toast.closeAll();
-    }
-</script>
